@@ -52,6 +52,9 @@ public class P3 {
             listaGen.add(listaG);
         }
 
+        CromosomaTest t = new CromosomaTest();
+
+
 //        System.out.println("\nGRASP-BL");
 //        GRASP[] gbl = new GRASP[SEED.length];
 //        System.out.println("---------------------");

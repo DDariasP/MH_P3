@@ -12,18 +12,18 @@ public class Cromosoma {
 
     public int eval;
     public int lasteval;
-    public Matriz m;
+    public Tabla t;
     public int coste;
 
-    public Cromosoma(Matriz n) {
+    public Cromosoma(Tabla n) {
         eval = -1;
         lasteval = -1;
-        m = new Matriz(n);
+        t = new Tabla(n);
         coste = Integer.MAX_VALUE;
     }
 
     public static Cromosoma genRandom(int cam, Lista<Gen> listaGen, Random rand) {
-        Matriz matriz = new Matriz(cam, P3.MAXPAL, -1);
+        Tabla tabla = new Tabla(cam, P3.MAXPAL);
 
         int[] palxcam = new int[cam];
         for (int i = 0; i < cam; i++) {
@@ -37,56 +37,26 @@ public class Cromosoma {
             while (palxcam[x] == P3.MAXPAL) {
                 x = (x + 1) % cam;
             }
-            while (matriz.m[x][y] != -1) {
+            Gen[] camion = tabla.t.get(x);
+            while (camion[y] != Gen.NULO) {
                 y++;
             }
-            matriz.m[x][y] = palet;
+            camion[y] = palet;
             palxcam[x]++;
         }
 
-        return (new Cromosoma(matriz));
+        return (new Cromosoma(tabla));
     }
 
-    public static Cromosoma genMutacion(int cam, Cromosoma s, Random rand) {
-        Matriz matriz = new Matriz(s.m);
-
-        int x1, x2, y1, y2, y3, y4;
-
-        x1 = rand.nextInt(cam);
-        x2 = rand.nextInt(cam);
-        while (x2 == x1) {
-            x2 = rand.nextInt(cam);
-        }
-
-        y1 = rand.nextInt(P3.MAXPAL);
-        y2 = rand.nextInt(P3.MAXPAL);
-        while (y2 == y1 || Math.abs(y2 - y1) > 4) {
-            y2 = rand.nextInt(P3.MAXPAL);
-        }
-        y3 = rand.nextInt(P3.MAXPAL);
-        y4 = rand.nextInt(P3.MAXPAL);
-        while (y4 == y3 || Math.abs(y4 - y3) > 4) {
-            y4 = rand.nextInt(P3.MAXPAL);
-        }
-
-        Movimiento nuevo;
-        nuevo = new Movimiento(x1, y1, x2, y3);
-        Movimiento.aplicar(nuevo, matriz);
-        nuevo = new Movimiento(x1, y2, x2, y4);
-        Movimiento.aplicar(nuevo, matriz);
-
-        return (new Cromosoma(matriz));
-    }
-
-    public static int funCoste(Cromosoma s, Matriz listaDist) {
+    public static int funCoste(Cromosoma c, Matriz listaDist) {
         int coste = 0;
-        for (int i = 0; i < s.m.filas; i++) {
+        for (int i = 0; i < c.t.filas; i++) {
             Lista<Integer> visitadas = new Lista<>();
             int actual = 0;
             visitadas.add(actual);
-            int[] camion = s.m.m[i];
+            Gen[] camion = c.t.t.get(i);
             for (int j = 0; j < camion.length; j++) {
-                int siguiente = camion[j] - 1;
+                int siguiente = camion[j].destino - 1;
                 if (!visitadas.contains(siguiente) && siguiente != actual) {
                     coste = coste + listaDist.m[actual][siguiente];
                     actual = siguiente;
@@ -111,7 +81,7 @@ public class Cromosoma {
 
         Cromosoma obj = (Cromosoma) o;
 
-        return (m.equals(obj.m));
+        return (t.equals(obj.t));
     }
 
     @Override
@@ -119,14 +89,14 @@ public class Cromosoma {
         int hash = 5;
         hash = 23 * hash + this.eval;
         hash = 23 * hash + this.lasteval;
-        hash = 23 * hash + Objects.hashCode(this.m);
+        hash = 23 * hash + Objects.hashCode(this.t);
         hash = 23 * hash + this.coste;
         return hash;
     }
 
     @Override
     public String toString() {
-        String output = m.toString();
+        String output = t.toString();
         return output;
     }
 

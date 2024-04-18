@@ -8,6 +8,7 @@ public class Gen {
 
     public final int id;
     public final int destino;
+    public static final Gen NULO = new Gen(-1, -1);
 
     public Gen(int n, int m) {
         id = n;

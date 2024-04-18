@@ -43,9 +43,8 @@ public class Solucion {
             palxcam[i] = 0;
         }
 
-        int contador = 0;
-        while (contador < listaPal.size()) {
-            int palet = listaPal.get(contador);
+        for (int i = 0; i < listaPal.size(); i++) {
+            int palet = listaPal.get(i);
             int x = rand.nextInt(cam);
             int y = 0;
             while (palxcam[x] == P3.MAXPAL) {
@@ -55,7 +54,6 @@ public class Solucion {
                 y++;
             }
             matriz.m[x][y] = palet;
-            contador++;
             palxcam[x]++;
         }
 
