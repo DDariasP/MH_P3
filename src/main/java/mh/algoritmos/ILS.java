@@ -47,7 +47,7 @@ public class ILS {
         int[] P = P3.P[tamP];
         int ciu = P[0];
         int cam = P[2];
-        int maxiter = P3.MAX * ciu;
+        int maxiter = P3.MAX2 * ciu;
         Lista listaPal = P3.listaPal.get(tamP);
 
         int lasteval = -1;
@@ -90,7 +90,7 @@ public class ILS {
         int[] P = P3.P[tamP];
         int ciu = P[0];
         int cam = P[2];
-        int maxiter = P3.MAX * ciu;
+        int maxiter = P3.MAX2 * ciu;
         Lista listaPal = P3.listaPal.get(tamP);
 
         int lasteval = -1;
@@ -133,7 +133,7 @@ public class ILS {
         int[] P = P3.P[tamP];
         int ciu = P[0];
         int cam = P[2];
-        int maxiter = P3.MAX * ciu;
+        int maxiter = P3.MAX2 * ciu;
         Lista listaPal = P3.listaPal.get(tamP);
 
         int lasteval = -1;

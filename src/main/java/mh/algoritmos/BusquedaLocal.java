@@ -46,7 +46,7 @@ public class BusquedaLocal {
         int ciu = P[0];
         int cam = P[2];
         int eval = -1;
-        int maxeval = P3.MAX * ciu;
+        int maxeval = P3.MAX2 * ciu;
         Lista listaPal = P3.listaPal.get(tamP);
         Matriz listaDist = P3.listaDist.get(tamP);
 
@@ -62,7 +62,7 @@ public class BusquedaLocal {
             siguiente.coste = Solucion.funCoste(siguiente, listaDist);
             eval++;
             siguiente.eval = eval;
-            if (siguiente.eval % P3.MS == 0) {
+            if (siguiente.eval % P3.MS2 == 0) {
                 convergencia[tamP].add(siguiente.coste);
             }
             if (actual.coste > siguiente.coste) {
@@ -94,7 +94,7 @@ public class BusquedaLocal {
             iter++;
             eval++;
             siguiente.eval = eval;
-            if (siguiente.eval % P3.MM == 0) {
+            if (siguiente.eval % P3.MM2 == 0) {
                 convergencia.add(siguiente.coste);
             }
             if (actual.coste > siguiente.coste) {

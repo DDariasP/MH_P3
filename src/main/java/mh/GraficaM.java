@@ -33,7 +33,7 @@ public class GraficaM extends JFrame {
         }
 
         //crear y añadir los ejes
-        ValueAxis domain = new NumberAxis("Evaluación (1 : " + P3.MM + ")");
+        ValueAxis domain = new NumberAxis("Evaluación (1 : " + P3.MM2 + ")");
         ValueAxis range = new NumberAxis("Coste");
         plot.setDomainAxis(0, domain);
         plot.setRangeAxis(0, range);

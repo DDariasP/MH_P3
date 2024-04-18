@@ -80,7 +80,7 @@ public class EnfriamientoSimulado {
 
         T = T0;
         int eval = -1;
-        int maxeval = P3.MAX * ciu;
+        int maxeval = P3.MAX2 * ciu;
         int vecindario = 1;
         int enfr = 0;
         int maxenfr = KI * ciu;
@@ -103,7 +103,7 @@ public class EnfriamientoSimulado {
                 siguiente.coste = Solucion.funCoste(siguiente, listaDist);
                 eval++;
                 siguiente.eval = eval;
-                if (siguiente.eval % P3.MS == 0) {
+                if (siguiente.eval % P3.MS2 == 0) {
                     convergencia[tamP].add(siguiente.coste);
                 }
                 siguiente.T0 = T0;
@@ -182,7 +182,7 @@ public class EnfriamientoSimulado {
                 iter++;
                 eval++;
                 siguiente.eval = eval;
-                if (siguiente.eval % P3.MM == 0) {
+                if (siguiente.eval % P3.MM2 == 0) {
                     convergencia.add(siguiente.coste);
                 }
                 siguiente.T0 = T0;

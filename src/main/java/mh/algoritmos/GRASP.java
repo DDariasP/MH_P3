@@ -46,7 +46,7 @@ public class GRASP {
     public Solucion BL(int tamP) {
         int[] P = P3.P[tamP];
         int ciu = P[0];
-        int maxiter = P3.MAX * ciu;
+        int maxiter = P3.MAX2 * ciu;
 
         int lasteval = -1;
         Solucion elite = new Solucion(new Matriz(1, 1, 0));
@@ -83,7 +83,7 @@ public class GRASP {
     public Solucion ES(int tamP) {
         int[] P = P3.P[tamP];
         int ciu = P[0];
-        int maxiter = P3.MAX * ciu;
+        int maxiter = P3.MAX2 * ciu;
 
         int lasteval = -1;
         Solucion elite = new Solucion(new Matriz(1, 1, 0));
@@ -120,7 +120,7 @@ public class GRASP {
     public Solucion BT(int tamP) {
         int[] P = P3.P[tamP];
         int ciu = P[0];
-        int maxiter = P3.MAX * ciu;
+        int maxiter = P3.MAX2 * ciu;
 
         int lasteval = -1;
         double tenencia = 4.0;

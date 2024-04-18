@@ -68,7 +68,7 @@ public class Parser {
             resultados.createNewFile();
             FileWriter writer = new FileWriter(filename);
 
-            writer.write("GRASP-BL - n*" + P3.MAX);
+            writer.write("GRASP-BL - n*" + P3.MAX2);
             writer.write("\n---------------------");
             GRASP[] gbl = (GRASP[]) lista.get(5);
             for (int i = 0; i < P3.SEED.length; i++) {
@@ -79,7 +79,7 @@ public class Parser {
             }
             writer.write("\n---------------------");
 
-            writer.write("\nGRASP-ES - n*" + P3.MAX);
+            writer.write("\nGRASP-ES - n*" + P3.MAX2);
             writer.write("\n---------------------");
             GRASP[] ges = (GRASP[]) lista.get(6);
             for (int i = 0; i < P3.SEED.length; i++) {

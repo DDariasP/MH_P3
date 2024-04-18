@@ -56,7 +56,7 @@ public class BusquedaTaboo {
         int ciu = P[0];
         int cam = P[2];
         int eval = -1;
-        int maxeval = P3.MAX * ciu;
+        int maxeval = P3.MAX2 * ciu;
         int iter, vecindario;
         int maxiter = maxeval / P3.RESTART;
         int reini = 0;
@@ -135,7 +135,7 @@ public class BusquedaTaboo {
                     siguiente.coste = Solucion.funCoste(siguiente, listaDist);
                     eval++;
                     siguiente.eval = eval;
-                    if (siguiente.eval % P3.MS == 0) {
+                    if (siguiente.eval % P3.MS2 == 0) {
                         convergencia[tamP].add(siguiente.coste);
                     }
                     iter++;
@@ -187,7 +187,7 @@ public class BusquedaTaboo {
                 iter++;
                 eval++;
                 siguiente.eval = eval;
-                if (siguiente.eval % P3.MM == 0) {
+                if (siguiente.eval % P3.MM2 == 0) {
                     convergencia.add(siguiente.coste);
                 }
                 vecindario++;

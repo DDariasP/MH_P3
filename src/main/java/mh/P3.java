@@ -10,9 +10,9 @@ import java.util.ArrayList;
  */
 public class P3 {
 
-    public static final int MAX = 5000;
-    public static final int MS = MAX;
-    public static final int MM = MAX * 2;
+    public static final int MAX2 = 5000;
+    public static final int MS2 = MAX2;
+    public static final int MM2 = MAX2 * 2;
     public static final int RESTART = 10;
     public static final int VECIN = 100;
     public static final int MAXPAL = 14;
@@ -22,6 +22,12 @@ public class P3 {
     public static ArrayList<Matriz> listaDist;
     public static ArrayList<Lista> listaPal;
     public static ArrayList<Lista> listaGen;
+    public static final int MAX3 = 1000;
+    public static final int POBLACION = 50;
+    public static final int TORNEO = 2;
+    public static final double CRUCE = 0.85;
+    public static final double MUTACION = 0.05;
+    public static final int ELITISMO = 5;
 
     /**
      * @param args the command line arguments
@@ -54,15 +60,14 @@ public class P3 {
 
         CromosomaTest t = new CromosomaTest();
 
-
-//        System.out.println("\nGRASP-BL");
-//        GRASP[] gbl = new GRASP[SEED.length];
-//        System.out.println("---------------------");
-//        for (int i = 0; i < SEED.length; i++) {
-//            gbl[i] = new GRASP(SEED[i]);
-//            gbl[i].ejecutarBL();
-//            System.out.println("---------------------");
-//        }
+        System.out.println("\nGG-11");
+        GeneticoGeneracional[] gg1 = new GeneticoGeneracional[SEED.length];
+        System.out.println("---------------------");
+        for (int i = 0; i < SEED.length; i++) {
+            gg1[i] = new GeneticoGeneracional(SEED[i], 1, 1);
+            gg1[i].ejecutarGG();
+            System.out.println("---------------------");
+        }
 //
 //        System.out.println("\nGRASP-ES");
 //        GRASP[] ges = new GRASP[SEED.length];

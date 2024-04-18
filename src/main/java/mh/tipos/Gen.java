@@ -8,11 +8,13 @@ public class Gen {
 
     public final int id;
     public final int destino;
+    public int coste;
     public static final Gen NULO = new Gen(-1, -1);
 
     public Gen(int n, int m) {
         id = n;
         destino = m;
+        coste = Integer.MAX_VALUE;
     }
 
     public static void sort(Lista<Gen> lista) {
@@ -34,7 +36,7 @@ public class Gen {
         Gen pivote = lista.get(mayor);
         int i = menor - 1;
         for (int j = menor; j < mayor; j++) {
-            if (lista.get(j).destino - pivote.destino <= 0) {
+            if (lista.get(j).coste - pivote.coste <= 0) {
                 i++;
                 swap(lista, i, j);
             }

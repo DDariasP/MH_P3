@@ -31,7 +31,7 @@ public class GraficaS extends JFrame {
         plot.setRenderer(0, renderer);
 
         //crear y añadir los ejes
-        ValueAxis domain = new NumberAxis("Evaluación (1 : " + P3.MS + ")");
+        ValueAxis domain = new NumberAxis("Evaluación (1 : " + P3.MS2 + ")");
         ValueAxis range = new NumberAxis("Coste");
         plot.setDomainAxis(0, domain);
         plot.setRangeAxis(0, range);
