@@ -17,6 +17,7 @@ public class GeneticoGeneracional {
     public Cromosoma[] cromGG;
     public Lista[] convergencia;
     public final int tipoX, tipoM;
+    public final Color color;
     public int lastGen;
 
     public GeneticoGeneracional(int a, int b, int c) {
@@ -29,17 +30,34 @@ public class GeneticoGeneracional {
         }
         tipoX = b;
         tipoM = c;
+        String t = String.valueOf(tipoX) + String.valueOf(tipoM);
+        switch (t) {
+            case "11":
+                color = Color.GREEN;
+                break;
+            case "12":
+                color = Color.CYAN;
+                break;
+            case "21":
+                color = Color.MAGENTA;
+                break;
+            case "22":
+                color = Color.YELLOW;
+                break;
+            default:
+                throw new AssertionError();
+        }
     }
 
     public void ejecutarGG() {
         for (int i = 0; i < P3.NUMP; i++) {
             cromGG[i] = GG(i);
             System.out.println(cromGG[i].coste + "\t" + cromGG[i].eval);
-            if (SEED == 1) {
-                GraficaE g = new GraficaE(convergencia[i], "GG", Color.GREEN);
+            if (i == 2 && SEED == 333) {
+                Grafica g = new Grafica(convergencia[i], "GG-" + tipoX + tipoM, color);
                 g.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
                 g.setBounds(200, 350, 800, 400);
-                g.setTitle("GG - P" + (i + 1) + " - S" + SEED);
+                g.setTitle("GG-" + tipoX + tipoM + " - P" + (i + 1) + " - S" + SEED);
                 g.setVisible(true);
             }
         }
@@ -65,6 +83,7 @@ public class GeneticoGeneracional {
 
         lastGen = 0;
         Cromosoma elite = tmp;
+        convergencia[tamP].add(elite.coste);
 
         for (int i = 1; i < P3.POBLACION; i++) {
             tmp = Cromosoma.genRandom(cam, listaGen, rand);
@@ -140,14 +159,16 @@ public class GeneticoGeneracional {
                 Cromosoma.sort(siguiente);
                 actual = siguiente;
                 lastGen++;
+                if (lastGen % P3.MG == 0) {
+                    convergencia[tamP].add(actual.get(0).coste);
+                }
                 if (elite.coste > actual.get(0).coste) {
                     elite = actual.get(0);
                     elite.lasteval = eval;
                 }
             } else {
                 System.out.println("lastGen=" + lastGen);
-//                System.out.println("descendientes=" + descendientes);
-//                System.out.println("mutaciones=" + mutaciones);
+                convergencia[tamP].add(elite.coste);
             }
         }
 

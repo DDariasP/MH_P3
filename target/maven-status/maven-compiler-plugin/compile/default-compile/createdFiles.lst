@@ -5,10 +5,9 @@ mh/P3.class
 mh/CromosomaTest.class
 mh/tipos/Lista.class
 mh/Parser.class
-mh/GraficaE.class
 mh/tipos/Cromosoma.class
 mh/tipos/Matriz.class
 mh/tipos/Gen.class
+mh/Grafica.class
 mh/tipos/Tabla.class
 mh/tipos/Solucion.class
-mh/GraficaG.class

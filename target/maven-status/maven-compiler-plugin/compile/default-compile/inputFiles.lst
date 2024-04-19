@@ -1,7 +1,6 @@
 /home/diego/NetBeansProjects/MH_P3/src/main/java/mh/tipos/Cromosoma.java
 /home/diego/NetBeansProjects/MH_P3/src/main/java/mh/tipos/Solucion.java
 /home/diego/NetBeansProjects/MH_P3/src/main/java/mh/P3.java
-/home/diego/NetBeansProjects/MH_P3/src/main/java/mh/GraficaE.java
 /home/diego/NetBeansProjects/MH_P3/src/main/java/mh/Parser.java
 /home/diego/NetBeansProjects/MH_P3/src/main/java/mh/algoritmos/GeneticoGeneracional.java
 /home/diego/NetBeansProjects/MH_P3/src/main/java/mh/CromosomaTest.java
@@ -9,6 +8,6 @@
 /home/diego/NetBeansProjects/MH_P3/src/main/java/mh/tipos/Lista.java
 /home/diego/NetBeansProjects/MH_P3/src/main/java/mh/algoritmos/BusquedaLocal.java
 /home/diego/NetBeansProjects/MH_P3/src/main/java/mh/algoritmos/Memetico.java
+/home/diego/NetBeansProjects/MH_P3/src/main/java/mh/Grafica.java
 /home/diego/NetBeansProjects/MH_P3/src/main/java/mh/tipos/Gen.java
-/home/diego/NetBeansProjects/MH_P3/src/main/java/mh/GraficaG.java
 /home/diego/NetBeansProjects/MH_P3/src/main/java/mh/tipos/Matriz.java
