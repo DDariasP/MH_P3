@@ -137,7 +137,7 @@ public class Cromosoma {
         return ganador;
     }
 
-    public static void cruceOX(Cromosoma P0, Cromosoma P1, Cromosoma[] H, Random rand) {
+    public static void cruceOXSimple(Cromosoma P0, Cromosoma P1, Cromosoma[] H, Random rand) {
         int cam = P0.t.filas;
         int x1, x2, y1, y2;
         x1 = rand.nextInt(cam);
@@ -192,6 +192,132 @@ public class Cromosoma {
             seccionP0.remove(0);
             H[1].t.t[x2][j] = seccionP1.get(0);
             seccionP1.remove(0);
+        }
+    }
+
+    public static void cruceOX(Cromosoma P0, Cromosoma P1, Cromosoma[] H, Random rand) {
+        int cam = P0.t.filas;
+        int x1, x2, y1, y2;
+        x1 = rand.nextInt(cam);
+        x2 = rand.nextInt(cam);
+        while (x2 == x1) {
+            x2 = rand.nextInt(cam);
+        }
+        if (x1 > x2) {
+            int tmp = x1;
+            x1 = x2;
+            x2 = tmp;
+        }
+        y1 = rand.nextInt(P3.MAXPAL);
+        y2 = rand.nextInt(P3.MAXPAL);
+
+        Lista<Gen> restoP0 = new Lista<>();
+        Lista<Gen> restoP1 = new Lista<>();
+        Lista<Gen> seccionP0 = new Lista<>();
+        Lista<Gen> seccionP1 = new Lista<>();
+
+        //DE CAM_0 A CAM_X1-1
+        for (int i = 0; i < x1; i++) {
+            for (int j = 0; j < P3.MAXPAL; j++) {
+                restoP0.add(P0.t.t[i][j]);
+                restoP1.add(P1.t.t[i][j]);
+            }
+        }
+        //DE CAM_X1_0 A CAM_X1_Y1-1
+        for (int j = 0; j < y1; j++) {
+            restoP0.add(P0.t.t[x1][j]);
+            restoP1.add(P1.t.t[x1][j]);
+        }
+        //DE CAM_X1_Y1 A CAM_X1+1
+        for (int j = y1; j < P3.MAXPAL; j++) {
+            seccionP0.add(P0.t.t[x1][j]);
+            seccionP1.add(P1.t.t[x1][j]);
+        }
+        //DE CAM_X1+1 A CAM_X2-1
+        for (int i = x1 + 1; i < x2; i++) {
+            for (int j = 0; j < P3.MAXPAL; j++) {
+                seccionP0.add(P0.t.t[i][j]);
+                seccionP1.add(P1.t.t[i][j]);
+            }
+        }
+        //DE CAM_X2_0 A CAM_X2_Y2
+        for (int j = 0; j <= y2; j++) {
+            seccionP0.add(P0.t.t[x2][j]);
+            seccionP1.add(P1.t.t[x2][j]);
+        }
+        //DE CAM_X2_Y2+1 A CAM_X2+1
+        for (int j = y2 + 1; j < P3.MAXPAL; j++) {
+            restoP0.add(P0.t.t[x2][j]);
+            restoP1.add(P1.t.t[x2][j]);
+        }
+        //DE CAM_X2+1 A CAM_Z
+        for (int i = x2 + 1; i < cam; i++) {
+            for (int j = 0; j < P3.MAXPAL; j++) {
+                restoP0.add(P0.t.t[i][j]);
+                restoP1.add(P1.t.t[i][j]);
+            }
+        }
+
+        Lista<Gen> friendP0 = Gen.friendSort(restoP0, P1);
+        Lista<Gen> friendP1 = Gen.friendSort(restoP1, P0);
+        H[0] = new Cromosoma(new Tabla(cam, P3.MAXPAL));
+        H[1] = new Cromosoma(new Tabla(cam, P3.MAXPAL));
+
+        //DE CAM_0 A CAM_X1-1
+        for (int i = 0; i < x1; i++) {
+            for (int j = 0; j < P3.MAXPAL; j++) {
+                H[0].t.t[i][j] = friendP0.get(0);
+                friendP0.remove(0);
+                H[1].t.t[i][j] = friendP1.get(0);
+                friendP1.remove(0);
+            }
+        }
+        //DE CAM_X1_0 A CAM_X1_Y1-1
+        for (int j = 0; j < y1; j++) {
+            H[0].t.t[x1][j] = friendP0.get(0);
+            friendP0.remove(0);
+            H[1].t.t[x1][j] = friendP1.get(0);
+            friendP1.remove(0);
+        }
+        //DE CAM_X1_Y1 A CAM_X1+1
+        for (int j = y1; j < P3.MAXPAL; j++) {
+            H[0].t.t[x1][j] = seccionP0.get(0);
+            seccionP0.remove(0);
+            H[1].t.t[x1][j] = seccionP1.get(0);
+            seccionP1.remove(0);
+
+        }
+        //DE CAM_X1+1 A CAM_X2-1
+        for (int i = x1 + 1; i < x2; i++) {
+            for (int j = 0; j < P3.MAXPAL; j++) {
+                H[0].t.t[i][j] = seccionP0.get(0);
+                seccionP0.remove(0);
+                H[1].t.t[i][j] = seccionP1.get(0);
+                seccionP1.remove(0);
+            }
+        }
+        //DE CAM_X2_0 A CAM_X2_Y2
+        for (int j = 0; j <= y2; j++) {
+            H[0].t.t[x2][j] = seccionP0.get(0);
+            seccionP0.remove(0);
+            H[1].t.t[x2][j] = seccionP1.get(0);
+            seccionP1.remove(0);
+        }
+        //DE CAM_X2_Y2+1 A CAM_X2+1
+        for (int j = y2 + 1; j < P3.MAXPAL; j++) {
+            H[0].t.t[x2][j] = friendP0.get(0);
+            friendP0.remove(0);
+            H[1].t.t[x2][j] = friendP1.get(0);
+            friendP1.remove(0);
+        }
+        //DE CAM_X2+1 A CAM_Z
+        for (int i = x2 + 1; i < cam; i++) {
+            for (int j = 0; j < P3.MAXPAL; j++) {
+                H[0].t.t[i][j] = friendP0.get(0);
+                friendP0.remove(0);
+                H[1].t.t[i][j] = friendP1.get(0);
+                friendP1.remove(0);
+            }
         }
     }
 

@@ -41,6 +41,24 @@ public class Gen {
         return inv;
     }
 
+    public static Lista<Gen> friendSort(Lista<Gen> lista, Cromosoma c) {
+        Lista<Gen> f = new Lista<>();
+        for (int i = 0; i < c.t.filas; i++) {
+            for (int j = 0; j < c.t.columnas; j++) {
+                f.add(c.t.t[i][j]);
+            }
+        }
+
+        Lista<Gen> friend = new Lista<>();
+        for (int i = 0; i < f.size(); i++) {
+            if (lista.contains(f.get(i))) {
+                friend.add(f.get(i));
+            }
+        }
+
+        return friend;
+    }
+
     public static void sort(Lista<Gen> lista) {
         if (lista == null || lista.isEmpty()) {
             return;
