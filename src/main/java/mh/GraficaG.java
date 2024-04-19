@@ -14,9 +14,9 @@ import org.jfree.data.xy.XYDataset;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
-public class GraficaS extends JFrame {
+public class GraficaG extends JFrame {
 
-    public GraficaS(Lista<Integer> datos, String nombre, Color pintura) {
+    public GraficaG(Lista<Integer> datos, String nombre, Color pintura) {
         //crear la grafica
         XYPlot plot = new XYPlot();
 
@@ -31,7 +31,7 @@ public class GraficaS extends JFrame {
         plot.setRenderer(0, renderer);
 
         //crear y añadir los ejes
-        ValueAxis domain = new NumberAxis("Evaluación (1 : " + P3.MS2 + ")");
+        ValueAxis domain = new NumberAxis("Generación (1 : " + P3.MG + ")");
         ValueAxis range = new NumberAxis("Coste");
         plot.setDomainAxis(0, domain);
         plot.setRangeAxis(0, range);

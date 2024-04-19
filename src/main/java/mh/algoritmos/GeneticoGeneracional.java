@@ -34,9 +34,9 @@ public class GeneticoGeneracional {
     public void ejecutarGG() {
         for (int i = 0; i < P3.NUMP; i++) {
             cromGG[i] = GG(i);
-            System.out.println(cromGG[i].coste + "\t" + cromGG[i].eval);
+//            System.out.println(cromGG[i].coste + "\t" + cromGG[i].eval);
             if (SEED == 1) {
-                GraficaS g = new GraficaS(convergencia[i], "GG", Color.GREEN);
+                GraficaE g = new GraficaE(convergencia[i], "GG", Color.GREEN);
                 g.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
                 g.setBounds(200, 350, 800, 400);
                 g.setTitle("GG - P" + (i + 1) + " - S" + SEED);
@@ -50,7 +50,7 @@ public class GeneticoGeneracional {
         int ciu = P[0];
         int cam = P[2];
         int eval = -1;
-        int maxeval = P3.MAX3 * ciu;
+        int maxeval = P3.MAX * ciu;
         Lista listaGen = P3.listaGen.get(tamP);
         Matriz listaDist = P3.listaDist.get(tamP);
         Cromosoma tmp;
@@ -115,9 +115,9 @@ public class GeneticoGeneracional {
                 if (mutacion >= 1.0 - P3.MUTACION) {
                     tmp = siguiente.get(mutaciones);
                     if (tipoM == 1) {
-                        tmp.mutacionCM(rand);
+                        tmp.mutacionCM(cam, rand);
                     } else {
-                        tmp.mutacionIM(rand);
+                        tmp.mutacionIM(cam, rand);
                     }
                     tmp.coste = Cromosoma.funCoste(tmp, listaDist);
                     eval++;
@@ -145,9 +145,9 @@ public class GeneticoGeneracional {
                     elite.lasteval = eval;
                 }
             } else {
-                System.out.println("lastGen=" + lastGen);
-                System.out.println("descendientes=" + descendientes);
-                System.out.println("mutaciones=" + mutaciones);
+//                System.out.println("lastGen=" + lastGen);
+//                System.out.println("descendientes=" + descendientes);
+//                System.out.println("mutaciones=" + mutaciones);
             }
         }
 

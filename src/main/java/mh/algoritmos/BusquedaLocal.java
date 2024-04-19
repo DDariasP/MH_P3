@@ -32,7 +32,7 @@ public class BusquedaLocal {
             solBL[i] = BL(i);
             System.out.println(solBL[i].coste + "\t" + solBL[i].eval);
             if (i == 2 && SEED == 333) {
-                GraficaS g = new GraficaS(convergencia[i], "BL", Color.RED);
+                GraficaE g = new GraficaE(convergencia[i], "BL", Color.RED);
                 g.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
                 g.setBounds(200, 350, 800, 400);
                 g.setTitle("BL - P" + (i + 1) + " - S" + SEED);
@@ -46,7 +46,7 @@ public class BusquedaLocal {
         int ciu = P[0];
         int cam = P[2];
         int eval = -1;
-        int maxeval = P3.MAX2 * ciu;
+        int maxeval = P3.MAX * ciu;
         Lista listaPal = P3.listaPal.get(tamP);
         Matriz listaDist = P3.listaDist.get(tamP);
 
@@ -62,7 +62,7 @@ public class BusquedaLocal {
             siguiente.coste = Solucion.funCoste(siguiente, listaDist);
             eval++;
             siguiente.eval = eval;
-            if (siguiente.eval % P3.MS2 == 0) {
+            if (siguiente.eval % P3.ME == 0) {
                 convergencia[tamP].add(siguiente.coste);
             }
             if (actual.coste > siguiente.coste) {
@@ -94,7 +94,7 @@ public class BusquedaLocal {
             iter++;
             eval++;
             siguiente.eval = eval;
-            if (siguiente.eval % P3.MM2 == 0) {
+            if (siguiente.eval % P3.ME == 0) {
                 convergencia.add(siguiente.coste);
             }
             if (actual.coste > siguiente.coste) {

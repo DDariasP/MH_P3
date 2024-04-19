@@ -14,26 +14,24 @@ import org.jfree.data.xy.XYDataset;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
-public class GraficaM extends JFrame {
+public class GraficaE extends JFrame {
 
-    public GraficaM(Lista<Integer>[] datos, String nombre) {
+    public GraficaE(Lista<Integer> datos, String nombre, Color pintura) {
         //crear la grafica
         XYPlot plot = new XYPlot();
 
-        for (int i = 0; i < datos.length; i++) {
-            String ini = nombre + "-R" + i;
-            //crear funcion
-            XYDataset funcion = createDataset(datos[i], ini);
-            //caracteristicas de funcion
-            XYItemRenderer renderer = new XYLineAndShapeRenderer(true, true);
-            renderer.setSeriesStroke(i, new BasicStroke(2.0f));
-            //añadir funcion a la grafica
-            plot.setDataset(i, funcion);
-            plot.setRenderer(i, renderer);
-        }
+        //crear funcion
+        XYDataset funcion = createDataset(datos, nombre);
+        //caracteristicas de funcion
+        XYItemRenderer renderer = new XYLineAndShapeRenderer(true, true);
+        renderer.setSeriesPaint(0, pintura);
+        renderer.setSeriesStroke(0, new BasicStroke(2.0f));
+        //añadir funcion a la grafica
+        plot.setDataset(0, funcion);
+        plot.setRenderer(0, renderer);
 
         //crear y añadir los ejes
-        ValueAxis domain = new NumberAxis("Evaluación (1 : " + P3.MM2 + ")");
+        ValueAxis domain = new NumberAxis("Evaluación (1 : " + P3.ME + ")");
         ValueAxis range = new NumberAxis("Coste");
         plot.setDomainAxis(0, domain);
         plot.setRangeAxis(0, range);

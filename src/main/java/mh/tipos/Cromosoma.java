@@ -148,12 +148,58 @@ public class Cromosoma {
         h[1] = p2;
     }
 
-    public void mutacionCM(Random rand) {
+    public void mutacionCM(int cam, Random rand) {
+        int x1, x2, x3, x4, y1, y2, y3, y4;
 
+        x1 = rand.nextInt(cam);
+        x2 = rand.nextInt(cam);
+        while (x2 == x1) {
+            x2 = rand.nextInt(cam);
+        }
+        x3 = rand.nextInt(cam);
+        x4 = rand.nextInt(cam);
+        while (x4 == x3 || x4 == x2) {
+            x4 = rand.nextInt(cam);
+        }
+
+        y1 = rand.nextInt(P3.MAXPAL);
+        y2 = rand.nextInt(P3.MAXPAL);
+        y3 = rand.nextInt(P3.MAXPAL);
+        y4 = rand.nextInt(P3.MAXPAL);
+
+        Gen tmp;
+        tmp = this.t.t.get(x1)[y1];
+        this.t.t.get(x1)[y1] = this.t.t.get(x2)[y2];
+        this.t.t.get(x2)[y2] = tmp;
+        tmp = this.t.t.get(x3)[y3];
+        this.t.t.get(x3)[y3] = this.t.t.get(x4)[y4];
+        this.t.t.get(x4)[y4] = tmp;
     }
 
-    public void mutacionIM(Random rand) {
+    public void mutacionIM(int cam, Random rand) {
+        int x1, x2, y1, y2;
 
+        x1 = rand.nextInt(cam);
+        x2 = rand.nextInt(cam);
+        while (x2 == x1) {
+            x2 = rand.nextInt(cam);
+        }
+        if (x1 > x2) {
+            int tmp = x1;
+            x1 = x2;
+            x2 = tmp;
+        }
+
+        y1 = rand.nextInt(P3.MAXPAL);
+        y2 = rand.nextInt(P3.MAXPAL);
+
+        String tabla = this.toString();
+        String[] filas = tabla.split("\n");
+String lista = "";
+        for (int i = 0; i < filas.length; i++) {
+            lista = lista + filas[i];
+        }
+        System.out.println("lista="+lista);
     }
 
     public static void sort(Lista<Cromosoma> lista) {

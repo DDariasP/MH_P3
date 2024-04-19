@@ -68,23 +68,23 @@ public class Parser {
             resultados.createNewFile();
             FileWriter writer = new FileWriter(filename);
 
-            writer.write("GRASP-BL - n*" + P3.MAX2);
+            writer.write("GG-11 - n*" + P3.MAX);
             writer.write("\n---------------------");
-            GRASP[] gbl = (GRASP[]) lista.get(5);
+            GeneticoGeneracional[] gg11 = (GeneticoGeneracional[]) lista.get(0);
             for (int i = 0; i < P3.SEED.length; i++) {
                 for (int j = 0; j < P3.NUMP; j++) {
-                    writer.write("\n" + gbl[i].solGP[j].coste + "\t" + gbl[i].solGP[j].eval);
+                    writer.write("\n" + gg11[i].cromGG[j].coste + "\t" + gg11[i].cromGG[j].eval);
                 }
                 writer.write("\n---------------------");
             }
             writer.write("\n---------------------");
 
-            writer.write("\nGRASP-ES - n*" + P3.MAX2);
+            writer.write("\nGG-12 - n*" + P3.MAX);
             writer.write("\n---------------------");
-            GRASP[] ges = (GRASP[]) lista.get(6);
+            GeneticoGeneracional[] gg12 = (GeneticoGeneracional[]) lista.get(1);
             for (int i = 0; i < P3.SEED.length; i++) {
                 for (int j = 0; j < P3.NUMP; j++) {
-                    writer.write("\n" + ges[i].solGP[j].coste + "\t" + ges[i].solGP[j].eval);
+                    writer.write("\n" + gg12[i].cromGG[j].coste + "\t" + gg12[i].cromGG[j].eval);
                 }
                 writer.write("\n---------------------");
             }

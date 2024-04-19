@@ -10,24 +10,21 @@ import java.util.ArrayList;
  */
 public class P3 {
 
-    public static final int MAX2 = 5000;
-    public static final int MS2 = MAX2;
-    public static final int MM2 = MAX2 * 2;
-    public static final int RESTART = 10;
-    public static final int VECIN = 100;
     public static final int MAXPAL = 14;
     public static final int NUMP = 3;
     public static final int[][] P = {{25, 84, 6}, {38, 126, 9}, {50, 168, 12}};
     public static final int[] SEED = {111, 222, 333, 123, 321};
-    public static ArrayList<Matriz> listaDist;
-    public static ArrayList<Lista> listaPal;
-    public static ArrayList<Lista> listaGen;
-    public static final int MAX3 = 1000;
+    public static final int MAX = 1000;
+    public static final int ME = 1000;
+    public static final int MG = 1000;
     public static final int POBLACION = 50;
     public static final int TORNEO = 2;
     public static final double CRUCE = 0.85;
     public static final double MUTACION = 0.05;
     public static final int ELITISMO = 5;
+    public static ArrayList<Matriz> listaDist;
+    public static ArrayList<Lista> listaPal;
+    public static ArrayList<Lista> listaGen;
 
     /**
      * @param args the command line arguments
@@ -57,30 +54,30 @@ public class P3 {
             }
             listaGen.add(listaG);
         }
-
-        CromosomaTest t = new CromosomaTest();
+        
+        CromosomaTest.test();
 
         System.out.println("\nGG-11");
-        GeneticoGeneracional[] gg1 = new GeneticoGeneracional[SEED.length];
+        GeneticoGeneracional[] gg11 = new GeneticoGeneracional[SEED.length];
         System.out.println("---------------------");
         for (int i = 0; i < SEED.length; i++) {
-            gg1[i] = new GeneticoGeneracional(SEED[i], 1, 1);
-            gg1[i].ejecutarGG();
+            gg11[i] = new GeneticoGeneracional(SEED[i], 1, 1);
+            gg11[i].ejecutarGG();
             System.out.println("---------------------");
         }
-//
-//        System.out.println("\nGRASP-ES");
-//        GRASP[] ges = new GRASP[SEED.length];
-//        System.out.println("---------------------");
-//        for (int i = 0; i < SEED.length; i++) {
-//            ges[i] = new GRASP(SEED[i]);
-//            ges[i].ejecutarES();
-//            System.out.println("---------------------");
-//        }
-//
+
+        System.out.println("\nGG-12");
+        GeneticoGeneracional[] gg12 = new GeneticoGeneracional[SEED.length];
+        System.out.println("---------------------");
+        for (int i = 0; i < SEED.length; i++) {
+            gg12[i] = new GeneticoGeneracional(SEED[i], 1, 2);
+            gg12[i].ejecutarGG();
+            System.out.println("---------------------");
+        }
+
 //        ArrayList<Object> resultados = new ArrayList<>();
-//        resultados.add(gbl);
-//        resultados.add(ges);
+//        resultados.add(gg11);
+//        resultados.add(gg12);
 //
 //        Parser.escribir("RESULTADOS-P3.txt", resultados);
     }

@@ -9,11 +9,7 @@ import mh.tipos.*;
  */
 public final class CromosomaTest {
 
-    public CromosomaTest() {
-        test();
-    }
-
-    public void test() {
+    public static void test() {
         Random r1 = new Random(333);
         Random r2 = new Random(333);
 

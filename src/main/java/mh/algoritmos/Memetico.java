@@ -4,7 +4,7 @@ package mh.algoritmos;
  *
  * @author diego
  */
-public class MemeticoLocal {
+public class Memetico {
     
     
     
