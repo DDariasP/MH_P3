@@ -145,7 +145,7 @@ public class GeneticoGeneracional {
                     elite.lasteval = eval;
                 }
             } else {
-//                System.out.println("lastGen=" + lastGen);
+                System.out.println("lastGen=" + lastGen);
 //                System.out.println("descendientes=" + descendientes);
 //                System.out.println("mutaciones=" + mutaciones);
             }

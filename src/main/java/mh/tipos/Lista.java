@@ -50,6 +50,22 @@ public class Lista<T> {
         return n;
     }
 
+    public int position(T obj) {
+        int pos = -1;
+        if (lista.contains(obj)) {
+            int i = 0;
+            boolean encontrado = false;
+            while (!encontrado) {
+                if (lista.get(i).equals(obj)) {
+                    encontrado = true;
+                    pos = i;
+                }
+                i++;
+            }
+        }
+        return pos;
+    }
+
     public int size() {
         return lista.size();
     }

@@ -138,8 +138,8 @@ public class Cromosoma {
     }
 
     public static void cruceOX(Cromosoma P0, Cromosoma P1, Cromosoma[] H, Random rand) {
-        int x1, x2, y1, y2;
         int cam = P0.t.filas;
+        int x1, x2, y1, y2;
         x1 = rand.nextInt(cam);
         x2 = rand.nextInt(cam);
         while (x2 == x1) {
@@ -195,9 +195,55 @@ public class Cromosoma {
         }
     }
 
-    public static void cruceAEX(Cromosoma p1, Cromosoma p2, Cromosoma[] h, Random rand) {
-        h[0] = p1;
-        h[1] = p2;
+    public static void cruceAEX(Cromosoma P0, Cromosoma P1, Cromosoma[] H, Random rand) {
+        int cam = P0.t.filas;
+        Lista<Gen>[] genesP = new Lista[2];
+        genesP[0] = new Lista<>();
+        genesP[1] = new Lista<>();
+        for (int i = 0; i < cam; i++) {
+            for (int j = 0; j < P3.MAXPAL; j++) {
+                genesP[0].add(P0.t.t[i][j]);
+                genesP[1].add(P1.t.t[i][j]);
+            }
+        }
+
+        Lista<Gen>[] genesH = new Lista[2];
+        genesH[0] = new Lista<>();
+        genesH[0].add(genesP[0].get(0));
+        genesH[0].add(genesP[0].get(1));
+        genesH[1] = new Lista<>();
+        genesH[1].add(genesP[1].get(0));
+        genesH[1].add(genesP[1].get(1));
+
+        int tam = genesP[0].size();
+        int limite = tam - 2;
+        for (int i = 0; i < 2; i++) {
+            for (int j = 0; j < limite; j++) {
+                Gen actual = genesH[i].get(genesH[i].size() - 1);
+                Gen siguiente = actual;
+                int tipo = (j % 2 - i + 1) % 2;
+                int pos = genesP[tipo].position(actual);
+                if (pos + 1 < tam) {
+                    siguiente = genesP[tipo].get(pos + 1);
+                }
+                while (genesH[i].contains(siguiente)) {
+                    pos = rand.nextInt(tam);
+                    siguiente = genesP[tipo].get(pos);
+                }
+                genesH[i].add(siguiente);
+            }
+        }
+
+        H[0] = new Cromosoma(new Tabla(cam, P3.MAXPAL));
+        H[1] = new Cromosoma(new Tabla(cam, P3.MAXPAL));
+        for (int i = 0; i < cam; i++) {
+            for (int j = 0; j < P3.MAXPAL; j++) {
+                H[0].t.t[i][j] = genesH[0].get(0);
+                genesH[0].remove(0);
+                H[1].t.t[i][j] = genesH[1].get(0);
+                genesH[1].remove(0);
+            }
+        }
     }
 
     public void mutacionCM(int cam, Random rand) {
