@@ -1,6 +1,6 @@
 package mh.tipos;
 
-import java.util.Objects;
+import java.util.Arrays;
 
 /**
  *
@@ -9,31 +9,27 @@ import java.util.Objects;
 public class Tabla {
 
     public final int filas, columnas;
-    public Lista<Gen[]> t;
+    public Gen[][] t;
 
     public Tabla(int a, int b) {
         filas = a;
         columnas = b;
-        t = new Lista<>();
+        t = new Gen[filas][columnas];
         for (int i = 0; i < filas; i++) {
-            Gen[] camion = new Gen[columnas];
             for (int j = 0; j < columnas; j++) {
-                camion[j] = Gen.NULO;
+                t[i][j] = Gen.NULO;
             }
-            t.add(camion);
         }
     }
 
     public Tabla(Tabla copia) {
         filas = copia.filas;
         columnas = copia.columnas;
-        t = new Lista<>();
+        t = new Gen[filas][columnas];
         for (int i = 0; i < filas; i++) {
-            Gen[] camion = new Gen[columnas];
             for (int j = 0; j < columnas; j++) {
-                camion[j] = copia.t.get(i)[j];
+                t[i][j] = copia.t[i][j];
             }
-            t.add(camion);
         }
     }
 
@@ -57,10 +53,8 @@ public class Tabla {
         int i = 0;
         while (i < filas && iguales) {
             int j = 0;
-            Gen[] camion = t.get(i);
-            Gen[] otro = obj.t.get(i);
             while (j < columnas && iguales) {
-                if (camion[j] != otro[j]) {
+                if (t[i][j] != obj.t[i][j]) {
                     iguales = false;
                 }
                 j++;
@@ -73,10 +67,10 @@ public class Tabla {
 
     @Override
     public int hashCode() {
-        int hash = 5;
-        hash = 53 * hash + this.filas;
-        hash = 53 * hash + this.columnas;
-        hash = 53 * hash + Objects.hashCode(this.t);
+        int hash = 3;
+        hash = 11 * hash + this.filas;
+        hash = 11 * hash + this.columnas;
+        hash = 11 * hash + Arrays.deepHashCode(this.t);
         return hash;
     }
 
@@ -84,9 +78,8 @@ public class Tabla {
     public String toString() {
         String output = "";
         for (int i = 0; i < filas; i++) {
-            Gen[] camion = t.get(i);
             for (int j = 0; j < columnas; j++) {
-                output = output + camion[j] + " ";
+                output = output + t[i][j] + " ";
             }
             output = output + "\n";
         }

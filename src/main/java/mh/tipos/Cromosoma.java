@@ -1,5 +1,6 @@
 package mh.tipos;
 
+import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Random;
 import mh.*;
@@ -37,11 +38,10 @@ public class Cromosoma {
             while (palxcam[x] == P3.MAXPAL) {
                 x = (x + 1) % cam;
             }
-            Gen[] camion = tabla.t.get(x);
-            while (camion[y] != Gen.NULO) {
+            while (tabla.t[x][y] != Gen.NULO) {
                 y++;
             }
-            camion[y] = palet;
+            tabla.t[x][y] = palet;
             palxcam[x]++;
         }
 
@@ -91,7 +91,7 @@ public class Cromosoma {
                 }
                 listaC.remove(elegido);
 
-                tabla.t.get(j)[i] = elegido;
+                tabla.t[j][i] = elegido;
                 ultimopal[j] = elegido.destino;
 //                System.out.println("elegido=" + elegido);
 //                System.out.println(tabla);
@@ -108,7 +108,7 @@ public class Cromosoma {
             Lista<Integer> visitadas = new Lista<>();
             int actual = 0;
             visitadas.add(actual);
-            Gen[] camion = c.t.t.get(i);
+            Gen[] camion = c.t.t[i];
             for (int j = 0; j < camion.length; j++) {
                 int siguiente = camion[j].destino - 1;
                 if (!visitadas.contains(siguiente) && siguiente != actual) {
@@ -149,36 +149,23 @@ public class Cromosoma {
     }
 
     public void mutacionCM(int cam, Random rand) {
-        int x1, x2, x3, x4, y1, y2, y3, y4;
-
+        int x1, x2, y1, y2;
         x1 = rand.nextInt(cam);
         x2 = rand.nextInt(cam);
         while (x2 == x1) {
             x2 = rand.nextInt(cam);
         }
-        x3 = rand.nextInt(cam);
-        x4 = rand.nextInt(cam);
-        while (x4 == x3 || x4 == x2) {
-            x4 = rand.nextInt(cam);
-        }
-
         y1 = rand.nextInt(P3.MAXPAL);
         y2 = rand.nextInt(P3.MAXPAL);
-        y3 = rand.nextInt(P3.MAXPAL);
-        y4 = rand.nextInt(P3.MAXPAL);
 
         Gen tmp;
-        tmp = this.t.t.get(x1)[y1];
-        this.t.t.get(x1)[y1] = this.t.t.get(x2)[y2];
-        this.t.t.get(x2)[y2] = tmp;
-        tmp = this.t.t.get(x3)[y3];
-        this.t.t.get(x3)[y3] = this.t.t.get(x4)[y4];
-        this.t.t.get(x4)[y4] = tmp;
+        tmp = this.t.t[x1][y1];
+        this.t.t[x1][y1] = this.t.t[x2][y2];
+        this.t.t[x2][y2] = tmp;
     }
 
     public void mutacionIM(int cam, Random rand) {
         int x1, x2, y1, y2;
-
         x1 = rand.nextInt(cam);
         x2 = rand.nextInt(cam);
         while (x2 == x1) {
@@ -189,17 +176,37 @@ public class Cromosoma {
             x1 = x2;
             x2 = tmp;
         }
-
         y1 = rand.nextInt(P3.MAXPAL);
         y2 = rand.nextInt(P3.MAXPAL);
 
-        String tabla = this.toString();
-        String[] filas = tabla.split("\n");
-String lista = "";
-        for (int i = 0; i < filas.length; i++) {
-            lista = lista + filas[i];
+        Lista<Gen> seccion = new Lista<>();
+        for (int j = y1; j < P3.MAXPAL; j++) {
+            seccion.add(this.t.t[x1][j]);
         }
-        System.out.println("lista="+lista);
+        for (int i = x1 + 1; i < x2; i++) {
+            for (int j = 0; j < P3.MAXPAL; j++) {
+                seccion.add(this.t.t[i][j]);
+            }
+        }
+        for (int j = 0; j <= y2; j++) {
+            seccion.add(this.t.t[x2][j]);
+        }
+
+        seccion = Gen.invert(seccion);
+        for (int j = y1; j < P3.MAXPAL; j++) {
+            this.t.t[x1][j] = seccion.get(0);
+            seccion.remove(0);
+        }
+        for (int i = x1 + 1; i < x2; i++) {
+            for (int j = 0; j < P3.MAXPAL; j++) {
+                this.t.t[i][j] = seccion.get(0);
+                seccion.remove(0);
+            }
+        }
+        for (int j = 0; j <= y2; j++) {
+            this.t.t[x2][j] = seccion.get(0);
+            seccion.remove(0);
+        }
     }
 
     public static void sort(Lista<Cromosoma> lista) {

@@ -17,6 +17,30 @@ public class Gen {
         coste = Integer.MAX_VALUE;
     }
 
+    public static Lista<Gen> invert(Lista<Gen> lista) {
+        int tam = lista.size();
+        Gen[] array = new Gen[tam];
+        for (int i = 0; i < tam; i++) {
+            array[i] = lista.get(i);
+        }
+
+        int inicio = 0;
+        int fin = tam - 1;
+        while (inicio < fin) {
+            Gen tmp = array[inicio];
+            array[inicio] = array[fin];
+            array[fin] = tmp;
+            inicio++;
+            fin--;
+        }
+
+        Lista<Gen> inv = new Lista<>();
+        for (int i = 0; i < tam; i++) {
+            inv.add(array[i]);
+        }
+        return inv;
+    }
+
     public static void sort(Lista<Gen> lista) {
         if (lista == null || lista.isEmpty()) {
             return;

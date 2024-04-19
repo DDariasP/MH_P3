@@ -34,7 +34,7 @@ public class GeneticoGeneracional {
     public void ejecutarGG() {
         for (int i = 0; i < P3.NUMP; i++) {
             cromGG[i] = GG(i);
-//            System.out.println(cromGG[i].coste + "\t" + cromGG[i].eval);
+            System.out.println(cromGG[i].coste + "\t" + cromGG[i].eval);
             if (SEED == 1) {
                 GraficaE g = new GraficaE(convergencia[i], "GG", Color.GREEN);
                 g.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -76,11 +76,11 @@ public class GeneticoGeneracional {
 
         //GENERACIONES
         Lista<Cromosoma> actual = inicial;
-        while (eval < maxeval) {
+        while (eval < maxeval - 1) {
             //SELECCION Y RECOMBINACION
             Lista<Cromosoma> siguiente = new Lista<>();
             int descendientes = 0;
-            while (eval < maxeval && descendientes < P3.POBLACION) {
+            while (eval < maxeval - 1 && descendientes < P3.POBLACION) {
                 Cromosoma padre1 = Cromosoma.torneo(P3.TORNEO, actual, listaDist, rand);
                 Cromosoma padre2 = Cromosoma.torneo(P3.TORNEO, actual, listaDist, rand);
                 double cruce = rand.nextDouble();
@@ -110,7 +110,7 @@ public class GeneticoGeneracional {
             }
             //MUTACION
             int mutaciones = 0;
-            while (eval < maxeval && mutaciones < P3.POBLACION) {
+            while (eval < maxeval - 1 && mutaciones < P3.POBLACION) {
                 double mutacion = rand.nextDouble();
                 if (mutacion >= 1.0 - P3.MUTACION) {
                     tmp = siguiente.get(mutaciones);

@@ -74,7 +74,7 @@ public class P3 {
             gg12[i].ejecutarGG();
             System.out.println("---------------------");
         }
-
+//
 //        ArrayList<Object> resultados = new ArrayList<>();
 //        resultados.add(gg11);
 //        resultados.add(gg12);
