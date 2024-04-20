@@ -16,11 +16,11 @@ public class GeneticoGeneracional {
     public Random rand;
     public Cromosoma[] cromGG;
     public Lista[] convergencia;
-    public final int tipoX, tipoM;
+    public final String tipoX, tipoM;
     public final Color color;
     public int lastGen;
 
-    public GeneticoGeneracional(int a, int b, int c) {
+    public GeneticoGeneracional(int a, String b, String c) {
         SEED = a;
         rand = new Random(SEED);
         cromGG = new Cromosoma[P3.NUMP];
@@ -30,18 +30,18 @@ public class GeneticoGeneracional {
         }
         tipoX = b;
         tipoM = c;
-        String t = String.valueOf(tipoX) + String.valueOf(tipoM);
+        String t = tipoX + "-" + tipoM;
         switch (t) {
-            case "11":
+            case "OX-M1":
                 color = Color.GREEN;
                 break;
-            case "12":
+            case "OX-M2":
                 color = Color.CYAN;
                 break;
-            case "21":
+            case "AEX-M1":
                 color = Color.MAGENTA;
                 break;
-            case "22":
+            case "AEX-M2":
                 color = Color.YELLOW;
                 break;
             default:
@@ -57,7 +57,7 @@ public class GeneticoGeneracional {
                 Grafica g = new Grafica(convergencia[i], "GG-" + tipoX + tipoM, color);
                 g.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
                 g.setBounds(200, 350, 800, 400);
-                g.setTitle("GG-" + tipoX + tipoM + " - P" + (i + 1) + " - S" + SEED);
+                g.setTitle("GG-" + tipoX + "-" + tipoM + " - P" + (i + 1) + " - S" + SEED);
                 g.setVisible(true);
             }
         }
@@ -75,7 +75,7 @@ public class GeneticoGeneracional {
 
         //INICIALIZACION
         Lista<Cromosoma> inicial = new Lista<>();
-        tmp = Cromosoma.genGreedy(cam, listaGen, listaDist, rand);
+        tmp = Cromosoma.genGreedy(listaGen, listaDist, rand);
         tmp.coste = Cromosoma.funCoste(tmp, listaDist);
         eval++;
         tmp.eval = eval;
@@ -86,7 +86,7 @@ public class GeneticoGeneracional {
         convergencia[tamP].add(elite.coste);
 
         for (int i = 1; i < P3.POBLACION; i++) {
-            tmp = Cromosoma.genRandom(cam, listaGen, rand);
+            tmp = Cromosoma.genRandom(listaGen, rand);
             tmp.coste = Cromosoma.funCoste(tmp, listaDist);
             eval++;
             tmp.eval = eval;
@@ -105,7 +105,7 @@ public class GeneticoGeneracional {
                 double cruce = rand.nextDouble();
                 if (cruce >= 1.0 - P3.CRUCE) {
                     Cromosoma[] hijos = new Cromosoma[2];
-                    if (tipoX == 1) {
+                    if (tipoX.equals("OX")) {
                         Cromosoma.cruceOX(padre1, padre2, hijos, rand);
                     } else {
                         Cromosoma.cruceAEX(padre1, padre2, hijos, rand);
@@ -133,10 +133,10 @@ public class GeneticoGeneracional {
                 double mutacion = rand.nextDouble();
                 if (mutacion >= 1.0 - P3.MUTACION) {
                     tmp = siguiente.get(mutaciones);
-                    if (tipoM == 1) {
-                        tmp.mutacionCM(cam, rand);
+                    if (tipoM.equals("M1")) {
+                        Cromosoma.mutacionCM(tmp, rand);
                     } else {
-                        tmp.mutacionIM(cam, rand);
+                        Cromosoma.mutacionIM(tmp, rand);
                     }
                     tmp.coste = Cromosoma.funCoste(tmp, listaDist);
                     eval++;

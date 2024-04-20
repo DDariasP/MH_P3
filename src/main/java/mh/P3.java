@@ -14,7 +14,7 @@ public class P3 {
     public static final int NUMP = 3;
     public static final int[][] P = {{25, 84, 6}, {38, 126, 9}, {50, 168, 12}};
     public static final int[] SEED = {111, 222, 333, 123, 321};
-    public static final int RATIO = 5;
+    public static final int RATIO = 1;
     public static final int MAX = RATIO * 1000;
     public static final int MG = MAX / (RATIO * 10);
     public static final int POBLACION = 50;
@@ -55,40 +55,38 @@ public class P3 {
             listaGen.add(listaG);
         }
 
-        CromosomaTest.test();
-
-        System.out.println("\nGG-11");
+        System.out.println("\nGG-OX-M1");
         GeneticoGeneracional[] gg11 = new GeneticoGeneracional[SEED.length];
         System.out.println("---------------------");
         for (int i = 0; i < SEED.length; i++) {
-            gg11[i] = new GeneticoGeneracional(SEED[i], 1, 1);
+            gg11[i] = new GeneticoGeneracional(SEED[i], "OX", "M1");
             gg11[i].ejecutarGG();
             System.out.println("---------------------");
         }
 
-        System.out.println("\nGG-12");
+        System.out.println("\nGG-OX-M2");
         GeneticoGeneracional[] gg12 = new GeneticoGeneracional[SEED.length];
         System.out.println("---------------------");
         for (int i = 0; i < SEED.length; i++) {
-            gg12[i] = new GeneticoGeneracional(SEED[i], 1, 2);
+            gg12[i] = new GeneticoGeneracional(SEED[i], "OX", "M2");
             gg12[i].ejecutarGG();
             System.out.println("---------------------");
         }
 
-        System.out.println("\nGG-21");
+        System.out.println("\nGG-AEX-M1");
         GeneticoGeneracional[] gg21 = new GeneticoGeneracional[SEED.length];
         System.out.println("---------------------");
         for (int i = 0; i < SEED.length; i++) {
-            gg21[i] = new GeneticoGeneracional(SEED[i], 2, 1);
+            gg21[i] = new GeneticoGeneracional(SEED[i], "AEX", "M1");
             gg21[i].ejecutarGG();
             System.out.println("---------------------");
         }
 
-        System.out.println("\nGG-22");
+        System.out.println("\nGG-AEX-M2");
         GeneticoGeneracional[] gg22 = new GeneticoGeneracional[SEED.length];
         System.out.println("---------------------");
         for (int i = 0; i < SEED.length; i++) {
-            gg22[i] = new GeneticoGeneracional(SEED[i], 2, 2);
+            gg22[i] = new GeneticoGeneracional(SEED[i], "AEX", "M2");
             gg22[i].ejecutarGG();
             System.out.println("---------------------");
         }
@@ -96,6 +94,8 @@ public class P3 {
 //        ArrayList<Object> resultados = new ArrayList<>();
 //        resultados.add(gg11);
 //        resultados.add(gg12);
+//        resultados.add(gg21);
+//        resultados.add(gg22);
 //
 //        Parser.escribir("RESULTADOS-P3.txt", resultados);
     }

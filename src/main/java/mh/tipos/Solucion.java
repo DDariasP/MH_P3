@@ -114,11 +114,8 @@ public class Solucion {
 
     @Override
     public int hashCode() {
-        int hash = 5;
-        hash = 23 * hash + this.eval;
-        hash = 23 * hash + this.lasteval;
-        hash = 23 * hash + Objects.hashCode(this.m);
-        hash = 23 * hash + this.coste;
+        int hash = 3;
+        hash = 97 * hash + Objects.hashCode(this.m);
         return hash;
     }
 

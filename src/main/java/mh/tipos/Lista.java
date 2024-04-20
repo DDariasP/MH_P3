@@ -76,10 +76,11 @@ public class Lista<T> {
 
     @Override
     public String toString() {
-        String output = "";
+        String output = "[";
         for (int i = 0; i < lista.size(); i++) {
             output = output + lista.get(i).toString() + " ";
         }
+        output = output.trim() + "]";
         return output;
     }
 

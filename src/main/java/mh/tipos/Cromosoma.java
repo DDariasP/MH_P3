@@ -22,7 +22,8 @@ public class Cromosoma {
         coste = Integer.MAX_VALUE;
     }
 
-    public static Cromosoma genRandom(int cam, Lista<Gen> listaGen, Random rand) {
+    public static Cromosoma genRandom(Lista<Gen> listaGen, Random rand) {
+        int cam = listaGen.size() / P3.MAXPAL;
         Tabla tabla = new Tabla(cam, P3.MAXPAL);
 
         int[] palxcam = new int[cam];
@@ -47,7 +48,8 @@ public class Cromosoma {
         return (new Cromosoma(tabla));
     }
 
-    public static Cromosoma genGreedy(int cam, Lista<Gen> listaGen, Matriz listaDist, Random rand) {
+    public static Cromosoma genGreedy(Lista<Gen> listaGen, Matriz listaDist, Random rand) {
+        int cam = listaGen.size() / P3.MAXPAL;
         Lista<Gen> listaC = new Lista<>();
         for (int i = 0; i < listaGen.size(); i++) {
             listaC.add(listaGen.get(i));
@@ -92,8 +94,6 @@ public class Cromosoma {
 
                 tabla.t[j][i] = elegido;
                 ultimopal[j] = elegido.destino;
-//                System.out.println("elegido=" + elegido);
-//                System.out.println(tabla);
             }
         }
 
@@ -121,10 +121,10 @@ public class Cromosoma {
         return coste;
     }
 
-    public static Cromosoma torneo(int tam, Lista<Cromosoma> poblacion, Matriz listaDist, Random rand) {
+    public static Cromosoma torneo(int K, Lista<Cromosoma> poblacion, Matriz listaDist, Random rand) {
         Lista<Cromosoma> torneo = new Lista<>();
         Lista<Integer> elegidos = new Lista<>();
-        for (int i = 0; i < tam; i++) {
+        for (int i = 0; i < K; i++) {
             int pos = -1;
             while (pos == -1 || elegidos.contains(pos)) {
                 pos = rand.nextInt(poblacion.size());
@@ -372,7 +372,8 @@ public class Cromosoma {
         }
     }
 
-    public void mutacionCM(int cam, Random rand) {
+    public static void mutacionCM(Cromosoma c, Random rand) {
+        int cam = c.t.filas;
         int x1, x2, y1, y2;
         x1 = rand.nextInt(cam);
         x2 = rand.nextInt(cam);
@@ -383,12 +384,13 @@ public class Cromosoma {
         y2 = rand.nextInt(P3.MAXPAL);
 
         Gen tmp;
-        tmp = this.t.t[x1][y1];
-        this.t.t[x1][y1] = this.t.t[x2][y2];
-        this.t.t[x2][y2] = tmp;
+        tmp = c.t.t[x1][y1];
+        c.t.t[x1][y1] = c.t.t[x2][y2];
+        c.t.t[x2][y2] = tmp;
     }
 
-    public void mutacionIM(int cam, Random rand) {
+    public static void mutacionIM(Cromosoma c, Random rand) {
+        int cam = c.t.filas;
         int x1, x2, y1, y2;
         x1 = rand.nextInt(cam);
         x2 = rand.nextInt(cam);
@@ -405,30 +407,30 @@ public class Cromosoma {
 
         Lista<Gen> seccion = new Lista<>();
         for (int j = y1; j < P3.MAXPAL; j++) {
-            seccion.add(this.t.t[x1][j]);
+            seccion.add(c.t.t[x1][j]);
         }
         for (int i = x1 + 1; i < x2; i++) {
             for (int j = 0; j < P3.MAXPAL; j++) {
-                seccion.add(this.t.t[i][j]);
+                seccion.add(c.t.t[i][j]);
             }
         }
         for (int j = 0; j <= y2; j++) {
-            seccion.add(this.t.t[x2][j]);
+            seccion.add(c.t.t[x2][j]);
         }
 
         seccion = Gen.invert(seccion);
         for (int j = y1; j < P3.MAXPAL; j++) {
-            this.t.t[x1][j] = seccion.get(0);
+            c.t.t[x1][j] = seccion.get(0);
             seccion.remove(0);
         }
         for (int i = x1 + 1; i < x2; i++) {
             for (int j = 0; j < P3.MAXPAL; j++) {
-                this.t.t[i][j] = seccion.get(0);
+                c.t.t[i][j] = seccion.get(0);
                 seccion.remove(0);
             }
         }
         for (int j = 0; j <= y2; j++) {
-            this.t.t[x2][j] = seccion.get(0);
+            c.t.t[x2][j] = seccion.get(0);
             seccion.remove(0);
         }
     }
@@ -485,11 +487,8 @@ public class Cromosoma {
 
     @Override
     public int hashCode() {
-        int hash = 5;
-        hash = 23 * hash + this.eval;
-        hash = 23 * hash + this.lasteval;
-        hash = 23 * hash + Objects.hashCode(this.t);
-        hash = 23 * hash + this.coste;
+        int hash = 7;
+        hash = 59 * hash + Objects.hashCode(this.t);
         return hash;
     }
 

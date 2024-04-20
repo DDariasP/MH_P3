@@ -68,7 +68,7 @@ public class Parser {
             resultados.createNewFile();
             FileWriter writer = new FileWriter(filename);
 
-            writer.write("GG-11 - n*" + P3.MAX);
+            writer.write("GG-OX-M1 - n*" + P3.MAX);
             writer.write("\n---------------------");
             GeneticoGeneracional[] gg11 = (GeneticoGeneracional[]) lista.get(0);
             for (int i = 0; i < P3.SEED.length; i++) {
@@ -79,12 +79,34 @@ public class Parser {
             }
             writer.write("\n---------------------");
 
-            writer.write("\nGG-12 - n*" + P3.MAX);
+            writer.write("\nGG-OX-M2 - n*" + P3.MAX);
             writer.write("\n---------------------");
             GeneticoGeneracional[] gg12 = (GeneticoGeneracional[]) lista.get(1);
             for (int i = 0; i < P3.SEED.length; i++) {
                 for (int j = 0; j < P3.NUMP; j++) {
                     writer.write("\n" + gg12[i].cromGG[j].coste + "\t" + gg12[i].cromGG[j].eval);
+                }
+                writer.write("\n---------------------");
+            }
+            writer.write("\n---------------------");
+
+            writer.write("\nGG-AEX-M1 - n*" + P3.MAX);
+            writer.write("\n---------------------");
+            GeneticoGeneracional[] gg21 = (GeneticoGeneracional[]) lista.get(2);
+            for (int i = 0; i < P3.SEED.length; i++) {
+                for (int j = 0; j < P3.NUMP; j++) {
+                    writer.write("\n" + gg21[i].cromGG[j].coste + "\t" + gg21[i].cromGG[j].eval);
+                }
+                writer.write("\n---------------------");
+            }
+            writer.write("\n---------------------");
+
+            writer.write("\nGG-AEX-M2 - n*" + P3.MAX);
+            writer.write("\n---------------------");
+            GeneticoGeneracional[] gg22 = (GeneticoGeneracional[]) lista.get(3);
+            for (int i = 0; i < P3.SEED.length; i++) {
+                for (int j = 0; j < P3.NUMP; j++) {
+                    writer.write("\n" + gg22[i].cromGG[j].coste + "\t" + gg22[i].cromGG[j].eval);
                 }
                 writer.write("\n---------------------");
             }

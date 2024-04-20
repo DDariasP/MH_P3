@@ -106,7 +106,7 @@ public class Gen {
 
         Gen obj = (Gen) o;
 
-        return (id == obj.id);
+        return (id == obj.id && destino == obj.destino);
     }
 
     @Override
