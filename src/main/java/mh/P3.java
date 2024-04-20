@@ -55,48 +55,48 @@ public class P3 {
             listaGen.add(listaG);
         }
 
-        System.out.println("\nGG-OX-M1");
-        GeneticoGeneracional[] gg11 = new GeneticoGeneracional[SEED.length];
-        System.out.println("---------------------");
-        for (int i = 0; i < SEED.length; i++) {
-            gg11[i] = new GeneticoGeneracional(SEED[i], "OX", "M1");
-            gg11[i].ejecutarGG();
-            System.out.println("---------------------");
-        }
-
-        System.out.println("\nGG-OX-M2");
-        GeneticoGeneracional[] gg12 = new GeneticoGeneracional[SEED.length];
-        System.out.println("---------------------");
-        for (int i = 0; i < SEED.length; i++) {
-            gg12[i] = new GeneticoGeneracional(SEED[i], "OX", "M2");
-            gg12[i].ejecutarGG();
-            System.out.println("---------------------");
-        }
-
-        System.out.println("\nGG-AEX-M1");
-        GeneticoGeneracional[] gg21 = new GeneticoGeneracional[SEED.length];
-        System.out.println("---------------------");
-        for (int i = 0; i < SEED.length; i++) {
-            gg21[i] = new GeneticoGeneracional(SEED[i], "AEX", "M1");
-            gg21[i].ejecutarGG();
-            System.out.println("---------------------");
-        }
-
-        System.out.println("\nGG-AEX-M2");
-        GeneticoGeneracional[] gg22 = new GeneticoGeneracional[SEED.length];
-        System.out.println("---------------------");
-        for (int i = 0; i < SEED.length; i++) {
-            gg22[i] = new GeneticoGeneracional(SEED[i], "AEX", "M2");
-            gg22[i].ejecutarGG();
-            System.out.println("---------------------");
-        }
-
-        ArrayList<Object> resultados = new ArrayList<>();
-        resultados.add(gg11);
-        resultados.add(gg12);
-        resultados.add(gg21);
-        resultados.add(gg22);
-
-        Parser.escribir("RESULTADOS-P3.txt", resultados);
+//        System.out.println("\nGG-OX-M1");
+//        GeneticoGeneracional[] gg11 = new GeneticoGeneracional[SEED.length];
+//        System.out.println("---------------------");
+//        for (int i = 0; i < SEED.length; i++) {
+//            gg11[i] = new GeneticoGeneracional(SEED[i], "OX", "M1");
+//            gg11[i].ejecutarGG();
+//            System.out.println("---------------------");
+//        }
+//
+//        System.out.println("\nGG-OX-M2");
+//        GeneticoGeneracional[] gg12 = new GeneticoGeneracional[SEED.length];
+//        System.out.println("---------------------");
+//        for (int i = 0; i < SEED.length; i++) {
+//            gg12[i] = new GeneticoGeneracional(SEED[i], "OX", "M2");
+//            gg12[i].ejecutarGG();
+//            System.out.println("---------------------");
+//        }
+//
+//        System.out.println("\nGG-AEX-M1");
+//        GeneticoGeneracional[] gg21 = new GeneticoGeneracional[SEED.length];
+//        System.out.println("---------------------");
+//        for (int i = 0; i < SEED.length; i++) {
+//            gg21[i] = new GeneticoGeneracional(SEED[i], "AEX", "M1");
+//            gg21[i].ejecutarGG();
+//            System.out.println("---------------------");
+//        }
+//
+//        System.out.println("\nGG-AEX-M2");
+//        GeneticoGeneracional[] gg22 = new GeneticoGeneracional[SEED.length];
+//        System.out.println("---------------------");
+//        for (int i = 0; i < SEED.length; i++) {
+//            gg22[i] = new GeneticoGeneracional(SEED[i], "AEX", "M2");
+//            gg22[i].ejecutarGG();
+//            System.out.println("---------------------");
+//        }
+//
+//        ArrayList<Object> resultados = new ArrayList<>();
+//        resultados.add(gg11);
+//        resultados.add(gg12);
+//        resultados.add(gg21);
+//        resultados.add(gg22);
+//
+//        Parser.escribir("RESULTADOS-P3.txt", resultados);
     }
 }

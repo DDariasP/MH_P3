@@ -66,7 +66,6 @@ public class GeneticoGeneracional {
     public Cromosoma GG(int tamP) {
         int[] P = P3.P[tamP];
         int ciu = P[0];
-        int cam = P[2];
         int eval = -1;
         int maxeval = P3.MAX * ciu;
         Lista listaGen = P3.listaGen.get(tamP);
