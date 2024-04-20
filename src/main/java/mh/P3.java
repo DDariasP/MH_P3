@@ -14,9 +14,9 @@ public class P3 {
     public static final int NUMP = 3;
     public static final int[][] P = {{25, 84, 6}, {38, 126, 9}, {50, 168, 12}};
     public static final int[] SEED = {111, 222, 333, 123, 321};
-    public static final double RATIO = 2.5;
+    public static final double RATIO = 1.0;
     public static final int MAX = (int) (RATIO * 1000);
-    public static final int MG = (int) (MAX / (RATIO * 10));
+    public static final int MG = (int) (RATIO * 50);
     public static final int POBLACION = 50;
     public static final int TORNEO = 2;
     public static final double CRUCE = 0.85;
@@ -91,12 +91,12 @@ public class P3 {
             System.out.println("---------------------");
         }
 
-//        ArrayList<Object> resultados = new ArrayList<>();
-//        resultados.add(gg11);
-//        resultados.add(gg12);
-//        resultados.add(gg21);
-//        resultados.add(gg22);
-//
-//        Parser.escribir("RESULTADOS-P3.txt", resultados);
+        ArrayList<Object> resultados = new ArrayList<>();
+        resultados.add(gg11);
+        resultados.add(gg12);
+        resultados.add(gg21);
+        resultados.add(gg22);
+
+        Parser.escribir("RESULTADOS-P3.txt", resultados);
     }
 }
