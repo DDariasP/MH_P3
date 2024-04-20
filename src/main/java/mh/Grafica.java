@@ -16,6 +16,8 @@ import org.jfree.data.xy.XYSeriesCollection;
 
 public class Grafica extends JFrame {
 
+    public double minY, maxY;
+
     public Grafica(Lista<Integer> datos, String nombre, Color pintura) {
         //crear la grafica
         XYPlot plot = new XYPlot();
@@ -33,6 +35,7 @@ public class Grafica extends JFrame {
         //crear y añadir los ejes
         ValueAxis domain = new NumberAxis("Generación (1 : " + P3.MG + ")");
         ValueAxis range = new NumberAxis("Coste");
+        range.setRange(minY, maxY);
         plot.setDomainAxis(0, domain);
         plot.setRangeAxis(0, range);
 
@@ -53,6 +56,8 @@ public class Grafica extends JFrame {
         for (int i = 0; i < datos.size(); i++) {
             series.add(i, datos.get(i));
         }
+        minY = series.getMinY() - 1000.0;
+        maxY = series.getMaxY() + 1000.0;
         dataset.addSeries(series);
         return dataset;
     }
