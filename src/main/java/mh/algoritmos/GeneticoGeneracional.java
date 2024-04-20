@@ -54,7 +54,7 @@ public class GeneticoGeneracional {
             cromGG[i] = GG(i);
             System.out.println(cromGG[i].coste + "\t" + cromGG[i].eval);
             if (i == 2 && SEED == 333) {
-                Grafica g = new Grafica(convergencia[i], "GG-" + tipoX + tipoM, color);
+                Grafica g = new Grafica(convergencia[i], "GG-" + tipoX + "-" + tipoM, color);
                 g.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
                 g.setBounds(200, 350, 800, 400);
                 g.setTitle("GG-" + tipoX + "-" + tipoM + " - P" + (i + 1) + " - S" + SEED);
