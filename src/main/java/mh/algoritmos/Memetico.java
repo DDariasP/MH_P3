@@ -1,6 +1,7 @@
 package mh.algoritmos;
 
 import java.awt.Color;
+import java.text.DecimalFormat;
 import java.util.Random;
 import static javax.swing.WindowConstants.*;
 import mh.*;
@@ -16,10 +17,9 @@ public class Memetico {
     public Random rand;
     public Cromosoma[] cromMM;
     public Lista[] convergencia;
-    public final String tipoX;
     public final int optG;
     public final double optP;
-    public final int BL;
+    public final int codigo;
     public final String nombre;
     public final Color color;
     public int lastGen;
@@ -33,22 +33,21 @@ public class Memetico {
         for (int i = 0; i < P3.NUMP; i++) {
             convergencia[i] = new Lista<Integer>();
         }
-        tipoX = b;
         optG = c;
         optP = d;
-        BL = e;
-        nombre = tipoX + "-AM-" + optG + "-" + optP;
-        switch (nombre) {
-            case "OX-AM-1-0.2":
+        nombre = b + optG + "-" + optP;
+        codigo = e;
+        switch (codigo) {
+            case 0:
                 color = Color.GREEN;
                 break;
-            case "OX-AM-10-1.0":
+            case 1:
                 color = Color.CYAN;
                 break;
-            case "AEX-AM-1-0.2":
+            case 2:
                 color = Color.MAGENTA;
                 break;
-            case "AEX-AM-10-1.0":
+            case 3:
                 color = Color.YELLOW;
                 break;
             default:
@@ -59,14 +58,18 @@ public class Memetico {
     public void ejecutarMM() {
         int i = 2;
 //        for (int i = 0; i < P3.NUMP; i++) {
+        double time = System.currentTimeMillis();
         cromMM[i] = MM(i);
         System.out.println(cromMM[i].coste + "\t" + cromMM[i].eval);
 //            if (i == 2 && SEED == 333) {
-        Grafica g = new Grafica(convergencia[i], "MM-" + nombre, color, P3.RATIOMM);
+        Grafica g = new Grafica(convergencia[i], nombre, color, P3.RATIOMM[codigo]);
         g.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         g.setBounds(200, 350, 800, 400);
-        g.setTitle("MM-" + nombre + " - P" + (i + 1) + " - S" + SEED);
+        g.setTitle(nombre + " - P" + (i + 1) + " - S" + SEED);
         g.setVisible(true);
+        time = ((System.currentTimeMillis() - time) / 6000);
+        String t = new DecimalFormat("#.00").format(time);
+        System.out.println(t + " seg");
 //            }
 //        }
     }
@@ -75,7 +78,7 @@ public class Memetico {
         int[] P = P3.P[tamP];
         int ciu = P[0];
         int eval = -1;
-        int maxeval = P3.MAXMM * ciu;
+        int maxeval = P3.MAXMM[codigo] * ciu;
         Lista listaGen = P3.listaGen.get(tamP);
         Matriz listaDist = P3.listaDist.get(tamP);
         Cromosoma tmp;
@@ -113,7 +116,7 @@ public class Memetico {
                 double cruce = rand.nextDouble();
                 if (cruce >= 1.0 - P3.CRUCE) {
                     Cromosoma[] hijos = new Cromosoma[2];
-                    if (tipoX.equals("OX")) {
+                    if (codigo == 0 || codigo == 1) {
                         Cromosoma.cruceOX(padre1, padre2, hijos, rand);
                     } else {
                         Cromosoma.cruceAEX(padre1, padre2, hijos, rand);
@@ -155,7 +158,7 @@ public class Memetico {
                     Cromosoma.sort(actual);
                 }
                 //RESULTADO
-                if (lastGen % P3.RATIOMM == 0) {
+                if (lastGen % P3.RATIOMM[codigo] == 0) {
                     convergencia[tamP].add(actual.get(0).coste);
                 }
                 if (elite.coste > actual.get(0).coste) {
@@ -191,7 +194,7 @@ public class Memetico {
                     }
                     cacheOpt.add(tmp);
                     tmp = optBL(tmp, listaDist);
-                    poblacion.replace(pos,tmp);
+                    poblacion.replace(pos, tmp);
                     if (cacheOpt.size() == P3.CACHE) {
                         cacheOpt.remove(0);
                     }
@@ -204,7 +207,7 @@ public class Memetico {
     private Cromosoma optBL(Cromosoma inicial, Matriz listaDist) {
         int ciu = inicial.m.filas * inicial.m.columnas;
         int iter = 0;
-        int maxiter = BL * ciu;
+        int maxiter = P3.BL[codigo] * ciu;
         int eval = inicial.eval;
 
         inicial.coste = Cromosoma.funCoste(inicial, listaDist);

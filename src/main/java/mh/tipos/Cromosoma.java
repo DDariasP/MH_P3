@@ -163,64 +163,6 @@ public class Cromosoma {
         return ganador;
     }
 
-    public static void cruceOXSimple(Cromosoma P0, Cromosoma P1, Cromosoma[] H, Random rand) {
-        int cam = P0.m.filas;
-        int x1, x2, y1, y2;
-        x1 = rand.nextInt(cam);
-        x2 = rand.nextInt(cam);
-        while (x2 == x1) {
-            x2 = rand.nextInt(cam);
-        }
-        if (x1 > x2) {
-            int tmp = x1;
-            x1 = x2;
-            x2 = tmp;
-        }
-        y1 = rand.nextInt(P3.MAXPAL);
-        y2 = rand.nextInt(P3.MAXPAL);
-
-        Lista<Gen> seccionP0 = new Lista<>();
-        Lista<Gen> seccionP1 = new Lista<>();
-        for (int j = y1; j < P3.MAXPAL; j++) {
-            seccionP0.add(P0.m.s[x1][j]);
-            seccionP1.add(P1.m.s[x1][j]);
-        }
-        for (int i = x1 + 1; i < x2; i++) {
-            for (int j = 0; j < P3.MAXPAL; j++) {
-                seccionP0.add(P0.m.s[i][j]);
-                seccionP1.add(P1.m.s[i][j]);
-            }
-        }
-        for (int j = 0; j <= y2; j++) {
-            seccionP0.add(P0.m.s[x2][j]);
-            seccionP1.add(P1.m.s[x2][j]);
-        }
-
-        H[0] = P1;
-        H[1] = P0;
-        for (int j = y1; j < P3.MAXPAL; j++) {
-            H[0].m.s[x1][j] = seccionP0.get(0);
-            seccionP0.remove(0);
-            H[1].m.s[x1][j] = seccionP1.get(0);
-            seccionP1.remove(0);
-
-        }
-        for (int i = x1 + 1; i < x2; i++) {
-            for (int j = 0; j < P3.MAXPAL; j++) {
-                H[0].m.s[i][j] = seccionP0.get(0);
-                seccionP0.remove(0);
-                H[1].m.s[i][j] = seccionP1.get(0);
-                seccionP1.remove(0);
-            }
-        }
-        for (int j = 0; j <= y2; j++) {
-            H[0].m.s[x2][j] = seccionP0.get(0);
-            seccionP0.remove(0);
-            H[1].m.s[x2][j] = seccionP1.get(0);
-            seccionP1.remove(0);
-        }
-    }
-
     public static void cruceOX(Cromosoma P0, Cromosoma P1, Cromosoma[] H, Random rand) {
         int cam = P0.m.filas;
         int x1, x2, y1, y2;

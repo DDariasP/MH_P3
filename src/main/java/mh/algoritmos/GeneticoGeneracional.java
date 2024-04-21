@@ -1,6 +1,7 @@
 package mh.algoritmos;
 
 import java.awt.Color;
+import java.text.DecimalFormat;
 import java.util.Random;
 import static javax.swing.WindowConstants.*;
 import mh.*;
@@ -16,12 +17,12 @@ public class GeneticoGeneracional {
     public Random rand;
     public Cromosoma[] cromGG;
     public Lista[] convergencia;
-    public final String tipoX, tipoM;
+    public final int codigo;
     public final String nombre;
     public final Color color;
     public int lastGen;
 
-    public GeneticoGeneracional(int a, String b, String c) {
+    public GeneticoGeneracional(int a, String b, int c) {
         SEED = a;
         rand = new Random(SEED);
         cromGG = new Cromosoma[P3.NUMP];
@@ -29,20 +30,19 @@ public class GeneticoGeneracional {
         for (int i = 0; i < P3.NUMP; i++) {
             convergencia[i] = new Lista<Integer>();
         }
-        tipoX = b;
-        tipoM = c;
-        nombre = tipoX + "-" + tipoM;
-        switch (nombre) {
-            case "OX-M1":
+        nombre = b;
+        codigo = c;
+        switch (codigo) {
+            case 0:
                 color = Color.GREEN;
                 break;
-            case "OX-M2":
+            case 1:
                 color = Color.CYAN;
                 break;
-            case "AEX-M1":
+            case 2:
                 color = Color.MAGENTA;
                 break;
-            case "AEX-M2":
+            case 3:
                 color = Color.YELLOW;
                 break;
             default:
@@ -51,17 +51,22 @@ public class GeneticoGeneracional {
     }
 
     public void ejecutarGG() {
-        for (int i = 0; i < P3.NUMP; i++) {
-            cromGG[i] = GG(i);
-            System.out.println(cromGG[i].coste + "\t" + cromGG[i].eval);
-            if (i == 2 && SEED == 333) {
-                Grafica g = new Grafica(convergencia[i], "GG-" + nombre, color, P3.RATIOGG);
-                g.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-                g.setBounds(200, 350, 800, 400);
-                g.setTitle("GG-" + nombre + " - P" + (i + 1) + " - S" + SEED);
-                g.setVisible(true);
-            }
-        }
+        int i = 2;
+//        for (int i = 0; i < P3.NUMP; i++) {
+        double time = System.currentTimeMillis();
+        cromGG[i] = GG(i);
+        System.out.println(cromGG[i].coste + "\t" + cromGG[i].eval);
+//            if (i == 2 && SEED == 333) {
+        Grafica g = new Grafica(convergencia[i], nombre, color, P3.RATIOGG);
+        g.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        g.setBounds(200, 350, 800, 400);
+        g.setTitle("GG-" + nombre + " - P" + (i + 1) + " - S" + SEED);
+        g.setVisible(true);
+        time = ((System.currentTimeMillis() - time) / 6000);
+        String t = new DecimalFormat("#.00").format(time);
+        System.out.println(t + " seg");
+//            }
+//        }
     }
 
     public Cromosoma GG(int tamP) {
@@ -105,7 +110,7 @@ public class GeneticoGeneracional {
                 double cruce = rand.nextDouble();
                 if (cruce >= 1.0 - P3.CRUCE) {
                     Cromosoma[] hijos = new Cromosoma[2];
-                    if (tipoX.equals("OX")) {
+                    if (codigo == 0 || codigo == 1) {
                         Cromosoma.cruceOX(padre1, padre2, hijos, rand);
                     } else {
                         Cromosoma.cruceAEX(padre1, padre2, hijos, rand);
@@ -133,7 +138,7 @@ public class GeneticoGeneracional {
                 double mutacion = rand.nextDouble();
                 if (mutacion >= 1.0 - P3.MUTACION) {
                     tmp = siguiente.get(mutaciones);
-                    if (tipoM.equals("M1")) {
+                    if (codigo == 0 || codigo == 1) {
                         Cromosoma.mutacionCM(tmp, rand);
                     } else {
                         Cromosoma.mutacionIM(tmp, rand);
