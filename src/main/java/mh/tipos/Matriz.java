@@ -9,15 +9,15 @@ import java.util.Arrays;
 public class Matriz {
 
     public final int filas, columnas;
-    public int[][] m;
+    public int[][] s;
 
     public Matriz(int a, int b, int c) {
         filas = a;
         columnas = b;
-        m = new int[a][b];
+        s = new int[a][b];
         for (int i = 0; i < filas; i++) {
             for (int j = 0; j < columnas; j++) {
-                m[i][j] = c;
+                s[i][j] = c;
             }
         }
     }
@@ -25,10 +25,10 @@ public class Matriz {
     public Matriz(Matriz copia) {
         filas = copia.filas;
         columnas = copia.columnas;
-        m = new int[filas][columnas];
+        s = new int[filas][columnas];
         for (int i = 0; i < filas; i++) {
             for (int j = 0; j < columnas; j++) {
-                m[i][j] = copia.m[i][j];
+                s[i][j] = copia.s[i][j];
             }
         }
     }
@@ -53,7 +53,7 @@ public class Matriz {
         while (i < filas && iguales) {
             int j = 0;
             while (j < columnas && iguales) {
-                if (m[i][j] != obj.m[i][j]) {
+                if (s[i][j] != obj.s[i][j]) {
                     iguales = false;
                 }
                 j++;
@@ -69,7 +69,7 @@ public class Matriz {
         int hash = 5;
         hash = 37 * hash + this.filas;
         hash = 37 * hash + this.columnas;
-        hash = 37 * hash + Arrays.deepHashCode(this.m);
+        hash = 37 * hash + Arrays.deepHashCode(this.s);
         return hash;
     }
 
@@ -78,7 +78,7 @@ public class Matriz {
         String output = "";
         for (int i = 0; i < filas; i++) {
             for (int j = 0; j < columnas; j++) {
-                output = output + m[i][j] + " ";
+                output = output + s[i][j] + " ";
             }
             output = output + "\n";
         }

@@ -5,6 +5,6 @@ mh/algoritmos/GeneticoGeneracional.class
 mh/tipos/Gen.class
 mh/P3.class
 mh/Grafica.class
+mh/tipos/Tabla.class
 mh/tipos/Lista.class
-mh/tipos/Solucion.class
 mh/Parser.class

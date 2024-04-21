@@ -29,7 +29,7 @@ public class Parser {
                 for (int i = 0; i < ciu; i++) {
                     fila[i] = Integer.parseInt(tokens[i]);
                 }
-                listaDist.m[contador] = fila;
+                listaDist.s[contador] = fila;
                 contador++;
             }
             scanner.close();

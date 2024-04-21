@@ -11,20 +11,18 @@ import mh.*;
 public class Cromosoma {
 
     public int eval;
-    public int lasteval;
-    public Solucion m;
+    public Tabla m;
     public int coste;
 
-    public Cromosoma(Solucion n) {
+    public Cromosoma(Tabla n) {
         eval = -1;
-        lasteval = -1;
         m = n;
         coste = Integer.MAX_VALUE;
     }
 
     public static Cromosoma genRandom(Lista<Gen> listaGen, Random rand) {
         int cam = listaGen.size() / P3.MAXPAL;
-        Solucion matriz = new Solucion(cam, P3.MAXPAL);
+        Tabla matriz = new Tabla(cam, P3.MAXPAL);
 
         int[] palxcam = new int[cam];
         for (int i = 0; i < cam; i++) {
@@ -57,7 +55,7 @@ public class Cromosoma {
             ultimopal[i] = 1;
         }
 
-        Solucion matriz = new Solucion(cam, P3.MAXPAL);
+        Tabla matriz = new Tabla(cam, P3.MAXPAL);
 
         for (int i = 0; i < P3.MAXPAL; i++) {
             for (int j = 0; j < cam; j++) {
@@ -67,7 +65,7 @@ public class Cromosoma {
                     int id = listaC.get(k).id;
                     int destino = listaC.get(k).destino;
                     int ciupal = destino - 1;
-                    int coste = listaDist.m[ciucam][ciupal];
+                    int coste = listaDist.s[ciucam][ciupal];
                     Gen tmp = new Gen(id, destino);
                     tmp.coste = coste;
                     LRC.add(tmp);
@@ -100,7 +98,7 @@ public class Cromosoma {
 
     public static Cromosoma gen4opt(Cromosoma c, Random rand) {
         int cam = c.m.filas;
-        Solucion matriz = new Solucion(c.m);
+        Tabla matriz = new Tabla(c.m);
         int x1, x2, x3, x4, y1, y2, y3, y4;
 
         x1 = rand.nextInt(cam);
@@ -137,12 +135,12 @@ public class Cromosoma {
             for (int j = 0; j < camion.length; j++) {
                 int siguiente = camion[j].destino - 1;
                 if (!visitadas.contains(siguiente) && siguiente != actual) {
-                    coste = coste + listaDist.m[actual][siguiente];
+                    coste = coste + listaDist.s[actual][siguiente];
                     actual = siguiente;
                     visitadas.add(actual);
                 }
             }
-            coste = coste + listaDist.m[actual][0];
+            coste = coste + listaDist.s[actual][0];
         }
         return coste;
     }
@@ -228,8 +226,8 @@ public class Cromosoma {
 
         Lista<Gen> friendP0 = Gen.friendSort(restoP0, P1);
         Lista<Gen> friendP1 = Gen.friendSort(restoP1, P0);
-        H[0] = new Cromosoma(new Solucion(cam, P3.MAXPAL));
-        H[1] = new Cromosoma(new Solucion(cam, P3.MAXPAL));
+        H[0] = new Cromosoma(new Tabla(cam, P3.MAXPAL));
+        H[1] = new Cromosoma(new Tabla(cam, P3.MAXPAL));
 
         //DE CAM_0 A CAM_X1-1
         for (int i = 0; i < x1; i++) {
@@ -328,8 +326,8 @@ public class Cromosoma {
             }
         }
 
-        H[0] = new Cromosoma(new Solucion(cam, P3.MAXPAL));
-        H[1] = new Cromosoma(new Solucion(cam, P3.MAXPAL));
+        H[0] = new Cromosoma(new Tabla(cam, P3.MAXPAL));
+        H[1] = new Cromosoma(new Tabla(cam, P3.MAXPAL));
         for (int i = 0; i < cam; i++) {
             for (int j = 0; j < P3.MAXPAL; j++) {
                 H[0].m.s[i][j] = genesH[0].get(0);

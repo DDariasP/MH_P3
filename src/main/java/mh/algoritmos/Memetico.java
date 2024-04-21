@@ -19,10 +19,11 @@ public class Memetico {
     public Lista[] convergencia;
     public final int optG;
     public final double optP;
-    public final int codigo;
+    public final int id;
     public final String nombre;
     public final Color color;
     public int lastGen;
+    public int lastEval;
     public Lista<Cromosoma> cacheOpt;
 
     public Memetico(int a, String b, int c, double d, int e) {
@@ -36,8 +37,8 @@ public class Memetico {
         optG = c;
         optP = d;
         nombre = b + optG + "-" + optP;
-        codigo = e;
-        switch (codigo) {
+        id = e;
+        switch (id) {
             case 0:
                 color = Color.GREEN;
                 break;
@@ -60,17 +61,20 @@ public class Memetico {
 //        for (int i = 0; i < P3.NUMP; i++) {
         double time = System.currentTimeMillis();
         cromMM[i] = MM(i);
-        System.out.println(cromMM[i].coste + "\t" + cromMM[i].eval);
+        time = ((System.currentTimeMillis() - time) / 6000);
+        String t = new DecimalFormat("#.00").format(time);
+        System.out.println(t + " seg");
+        System.out.println("lastGen=" + lastGen);
+        System.out.println("lastEval=" + lastEval);
+        System.out.println("coste=" + cromMM[i].coste);
+        System.out.println("eval=" + cromMM[i].eval);
 //            if (i == 2 && SEED == 333) {
-        Grafica g = new Grafica(convergencia[i], nombre, color, P3.RATIOMM[codigo]);
+        Grafica g = new Grafica(convergencia[i], nombre, color, P3.RATIOMM[id]);
         g.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         g.setBounds(200, 350, 800, 400);
         g.setTitle(nombre + " - P" + (i + 1) + " - S" + SEED);
         g.setVisible(true);
-        time = ((System.currentTimeMillis() - time) / 6000);
-        String t = new DecimalFormat("#.00").format(time);
-        System.out.println(t + " seg");
-//            }
+        //            }
 //        }
     }
 
@@ -78,7 +82,7 @@ public class Memetico {
         int[] P = P3.P[tamP];
         int ciu = P[0];
         int eval = -1;
-        int maxeval = P3.MAXMM[codigo] * ciu;
+        int maxeval = P3.MAXMM[id] * ciu;
         Lista listaGen = P3.listaGen.get(tamP);
         Matriz listaDist = P3.listaDist.get(tamP);
         Cromosoma tmp;
@@ -93,6 +97,7 @@ public class Memetico {
         inicial.add(tmp);
 
         lastGen = 0;
+        lastEval = 0;
         Cromosoma elite = tmp;
         convergencia[tamP].add(elite.coste);
 
@@ -116,7 +121,7 @@ public class Memetico {
                 double cruce = rand.nextDouble();
                 if (cruce >= 1.0 - P3.CRUCE) {
                     Cromosoma[] hijos = new Cromosoma[2];
-                    if (codigo == 0 || codigo == 1) {
+                    if (id == 0 || id == 1) {
                         Cromosoma.cruceOX(padre1, padre2, hijos, rand);
                     } else {
                         Cromosoma.cruceAEX(padre1, padre2, hijos, rand);
@@ -158,16 +163,15 @@ public class Memetico {
                     Cromosoma.sort(actual);
                 }
                 //RESULTADO
-                if (lastGen % P3.RATIOMM[codigo] == 0) {
+                if (lastGen % P3.RATIOMM[id] == 0) {
                     convergencia[tamP].add(actual.get(0).coste);
                 }
                 if (elite.coste > actual.get(0).coste) {
                     elite = actual.get(0);
-                    elite.lasteval = eval;
                 }
             } else {
-                System.out.println("lastGen=" + lastGen);
                 convergencia[tamP].add(elite.coste);
+                lastEval = eval;
             }
         }
 
@@ -207,13 +211,10 @@ public class Memetico {
     private Cromosoma optBL(Cromosoma inicial, Matriz listaDist) {
         int ciu = inicial.m.filas * inicial.m.columnas;
         int iter = 0;
-        int maxiter = P3.BL[codigo] * ciu;
-        int eval = inicial.eval;
+        int maxiter = P3.BL[id] * ciu;
 
         inicial.coste = Cromosoma.funCoste(inicial, listaDist);
         iter++;
-        eval++;
-        inicial.eval = eval;
 
         Cromosoma actual = inicial;
         Cromosoma siguiente;
@@ -221,13 +222,10 @@ public class Memetico {
             siguiente = Cromosoma.gen4opt(actual, rand);
             siguiente.coste = Cromosoma.funCoste(siguiente, listaDist);
             iter++;
-            eval++;
-            siguiente.eval = eval;
             if (actual.coste > siguiente.coste) {
                 actual = siguiente;
             }
         }
-        actual.lasteval = eval;
 
         return actual;
     }

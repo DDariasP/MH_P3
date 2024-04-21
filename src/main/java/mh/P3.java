@@ -14,8 +14,8 @@ public class P3 {
     public static final int NUMP = 3;
     public static final int[][] P = {{25, 84, 6}, {38, 126, 9}, {50, 168, 12}};
     public static final int[] SEED = {111, 222, 333, 123, 321};
-    public static final int MAXGG = 5000;
-    public static final int RATIOGG = MAXGG / 20;
+    public static final int[] MAXGG = {5000, 5000, 5000, 5000};
+    public static final int[] RATIOGG = {MAXGG[0] / 20, MAXGG[1] / 20, MAXGG[2] / 20, MAXGG[3] / 20};
     public static final int[] MAXMM = {40, 50, 25, 100};
     public static final int[] RATIOMM = {MAXMM[0] / 20, MAXMM[1] / 20, MAXMM[2] / 20, MAXMM[3] / 20};
     public static final int[] BL = {100, 600, 150, 200};

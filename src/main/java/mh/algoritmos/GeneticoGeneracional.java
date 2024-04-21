@@ -17,10 +17,11 @@ public class GeneticoGeneracional {
     public Random rand;
     public Cromosoma[] cromGG;
     public Lista[] convergencia;
-    public final int codigo;
+    public final int id;
     public final String nombre;
     public final Color color;
     public int lastGen;
+    public int lastEval;
 
     public GeneticoGeneracional(int a, String b, int c) {
         SEED = a;
@@ -31,8 +32,8 @@ public class GeneticoGeneracional {
             convergencia[i] = new Lista<Integer>();
         }
         nombre = b;
-        codigo = c;
-        switch (codigo) {
+        id = c;
+        switch (id) {
             case 0:
                 color = Color.GREEN;
                 break;
@@ -55,16 +56,19 @@ public class GeneticoGeneracional {
 //        for (int i = 0; i < P3.NUMP; i++) {
         double time = System.currentTimeMillis();
         cromGG[i] = GG(i);
-        System.out.println(cromGG[i].coste + "\t" + cromGG[i].eval);
-//            if (i == 2 && SEED == 333) {
-        Grafica g = new Grafica(convergencia[i], nombre, color, P3.RATIOGG);
-        g.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        g.setBounds(200, 350, 800, 400);
-        g.setTitle("GG-" + nombre + " - P" + (i + 1) + " - S" + SEED);
-        g.setVisible(true);
         time = ((System.currentTimeMillis() - time) / 6000);
         String t = new DecimalFormat("#.00").format(time);
         System.out.println(t + " seg");
+        System.out.println("lastGen=" + lastGen);
+        System.out.println("lastEval=" + lastEval);
+        System.out.println("coste=" + cromGG[i].coste);
+        System.out.println("eval=" + cromGG[i].eval);
+//            if (i == 2 && SEED == 333) {
+        Grafica g = new Grafica(convergencia[i], nombre, color, P3.RATIOGG[id]);
+        g.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        g.setBounds(200, 350, 800, 400);
+        g.setTitle(nombre + " - P" + (i + 1) + " - S" + SEED);
+        g.setVisible(true);
 //            }
 //        }
     }
@@ -73,7 +77,7 @@ public class GeneticoGeneracional {
         int[] P = P3.P[tamP];
         int ciu = P[0];
         int eval = -1;
-        int maxeval = P3.MAXGG * ciu;
+        int maxeval = P3.MAXGG[id] * ciu;
         Lista listaGen = P3.listaGen.get(tamP);
         Matriz listaDist = P3.listaDist.get(tamP);
         Cromosoma tmp;
@@ -87,6 +91,7 @@ public class GeneticoGeneracional {
         inicial.add(tmp);
 
         lastGen = 0;
+        lastEval = 0;
         Cromosoma elite = tmp;
         convergencia[tamP].add(elite.coste);
 
@@ -110,7 +115,7 @@ public class GeneticoGeneracional {
                 double cruce = rand.nextDouble();
                 if (cruce >= 1.0 - P3.CRUCE) {
                     Cromosoma[] hijos = new Cromosoma[2];
-                    if (codigo == 0 || codigo == 1) {
+                    if (id == 0 || id == 1) {
                         Cromosoma.cruceOX(padre1, padre2, hijos, rand);
                     } else {
                         Cromosoma.cruceAEX(padre1, padre2, hijos, rand);
@@ -138,7 +143,7 @@ public class GeneticoGeneracional {
                 double mutacion = rand.nextDouble();
                 if (mutacion >= 1.0 - P3.MUTACION) {
                     tmp = siguiente.get(mutaciones);
-                    if (codigo == 0 || codigo == 1) {
+                    if (id == 0 || id == 1) {
                         Cromosoma.mutacionCM(tmp, rand);
                     } else {
                         Cromosoma.mutacionIM(tmp, rand);
@@ -164,16 +169,15 @@ public class GeneticoGeneracional {
                 Cromosoma.sort(siguiente);
                 actual = siguiente;
                 lastGen++;
-                if (lastGen % P3.RATIOGG == 0) {
+                if (lastGen % P3.RATIOGG[id] == 0) {
                     convergencia[tamP].add(actual.get(0).coste);
                 }
                 if (elite.coste > actual.get(0).coste) {
                     elite = actual.get(0);
-                    elite.lasteval = eval;
                 }
             } else {
-                System.out.println("lastGen=" + lastGen);
                 convergencia[tamP].add(elite.coste);
+                lastEval = eval;
             }
         }
 

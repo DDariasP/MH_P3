@@ -6,12 +6,12 @@ import java.util.Arrays;
  *
  * @author diego
  */
-public class Solucion {
+public class Tabla {
 
     public final int filas, columnas;
     public Gen[][] s;
 
-    public Solucion(int a, int b) {
+    public Tabla(int a, int b) {
         filas = a;
         columnas = b;
         s = new Gen[filas][columnas];
@@ -22,7 +22,7 @@ public class Solucion {
         }
     }
 
-    public Solucion(Solucion copia) {
+    public Tabla(Tabla copia) {
         filas = copia.filas;
         columnas = copia.columnas;
         s = new Gen[filas][columnas];
@@ -39,11 +39,11 @@ public class Solucion {
             return true;
         }
 
-        if (!(o instanceof Solucion)) {
+        if (!(o instanceof Tabla)) {
             return false;
         }
 
-        Solucion obj = (Solucion) o;
+        Tabla obj = (Tabla) o;
 
         boolean iguales = true;
         if (filas != obj.filas || columnas != obj.columnas) {
