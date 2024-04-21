@@ -17,6 +17,7 @@ public class GeneticoGeneracional {
     public Cromosoma[] cromGG;
     public Lista[] convergencia;
     public final String tipoX, tipoM;
+    public final String nombre;
     public final Color color;
     public int lastGen;
 
@@ -30,8 +31,8 @@ public class GeneticoGeneracional {
         }
         tipoX = b;
         tipoM = c;
-        String t = tipoX + "-" + tipoM;
-        switch (t) {
+        nombre = tipoX + "-" + tipoM;
+        switch (nombre) {
             case "OX-M1":
                 color = Color.GREEN;
                 break;
@@ -54,10 +55,10 @@ public class GeneticoGeneracional {
             cromGG[i] = GG(i);
             System.out.println(cromGG[i].coste + "\t" + cromGG[i].eval);
             if (i == 2 && SEED == 333) {
-                Grafica g = new Grafica(convergencia[i], "GG-" + tipoX + "-" + tipoM, color);
+                Grafica g = new Grafica(convergencia[i], "GG-" + nombre, color);
                 g.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
                 g.setBounds(200, 350, 800, 400);
-                g.setTitle("GG-" + tipoX + "-" + tipoM + " - P" + (i + 1) + " - S" + SEED);
+                g.setTitle("GG-" + nombre + " - P" + (i + 1) + " - S" + SEED);
                 g.setVisible(true);
             }
         }

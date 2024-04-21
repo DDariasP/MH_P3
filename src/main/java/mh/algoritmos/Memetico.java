@@ -16,11 +16,15 @@ public class Memetico {
     public Random rand;
     public Cromosoma[] cromMM;
     public Lista[] convergencia;
-    public final String tipoX, tipoM;
+    public final String tipoX;
+    public final int optG;
+    public final double optP;
+    public final String nombre;
     public final Color color;
     public int lastGen;
+    public Lista<Cromosoma> cacheOpt;
 
-    public Memetico(int a, String b, String c) {
+    public Memetico(int a, String b, int c, double d) {
         SEED = a;
         rand = new Random(SEED);
         cromMM = new Cromosoma[P3.NUMP];
@@ -29,19 +33,20 @@ public class Memetico {
             convergencia[i] = new Lista<Integer>();
         }
         tipoX = b;
-        tipoM = c;
-        String t = tipoX + "-" + tipoM;
-        switch (t) {
-            case "OX-M1":
+        optG = c;
+        optP = d;
+        nombre = tipoX + "-AM-" + optG + "-" + optP;
+        switch (nombre) {
+            case "OX-AM-1-0.2":
                 color = Color.GREEN;
                 break;
-            case "OX-M2":
+            case "OX-AM-10-1.0":
                 color = Color.CYAN;
                 break;
-            case "AEX-M1":
+            case "AEX-AM-1-0.2":
                 color = Color.MAGENTA;
                 break;
-            case "AEX-M2":
+            case "AEX-AM-10-1.0":
                 color = Color.YELLOW;
                 break;
             default:
@@ -54,10 +59,10 @@ public class Memetico {
             cromMM[i] = MM(i);
             System.out.println(cromMM[i].coste + "\t" + cromMM[i].eval);
             if (i == 2 && SEED == 333) {
-                Grafica g = new Grafica(convergencia[i], "MM-" + tipoX + "-" + tipoM, color);
+                Grafica g = new Grafica(convergencia[i], "MM-" + nombre, color);
                 g.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
                 g.setBounds(200, 350, 800, 400);
-                g.setTitle("MM-" + tipoX + "-" + tipoM + " - P" + (i + 1) + " - S" + SEED);
+                g.setTitle("MM-" + nombre + " - P" + (i + 1) + " - S" + SEED);
                 g.setVisible(true);
             }
         }
@@ -71,6 +76,7 @@ public class Memetico {
         Lista listaGen = P3.listaGen.get(tamP);
         Matriz listaDist = P3.listaDist.get(tamP);
         Cromosoma tmp;
+        cacheOpt = new Lista<>();
 
         //INICIALIZACION
         Lista<Cromosoma> inicial = new Lista<>();
@@ -126,25 +132,8 @@ public class Memetico {
                     descendientes++;
                 }
             }
-            //MUTACION
-            int mutaciones = 0;
-            while (eval < maxeval - 1 && mutaciones < P3.POBLACION) {
-                double mutacion = rand.nextDouble();
-                if (mutacion >= 1.0 - P3.MUTACION) {
-                    tmp = siguiente.get(mutaciones);
-                    if (tipoM.equals("M1")) {
-                        Cromosoma.mutacionCM(tmp, rand);
-                    } else {
-                        Cromosoma.mutacionIM(tmp, rand);
-                    }
-                    tmp.coste = Cromosoma.funCoste(tmp, listaDist);
-                    eval++;
-                    tmp.eval = eval;
-                }
-                mutaciones++;
-            }
             //REEMPLAZAMIENTO
-            if (descendientes == P3.POBLACION && mutaciones == P3.POBLACION) {
+            if (descendientes == P3.POBLACION) {
                 Cromosoma.sort(actual);
                 Cromosoma.sort(siguiente);
                 for (int i = 0; i < P3.ELITISMO; i++) {
@@ -154,10 +143,15 @@ public class Memetico {
                     tmp = actual.get(i);
                     siguiente.add(tmp);
                 }
-                //RESULTADO
                 Cromosoma.sort(siguiente);
                 actual = siguiente;
                 lastGen++;
+                //OPTIMIZACION
+                if (lastGen % optG == 0) {
+                    Cromosoma.optimizacionAM(actual, listaDist, optG, optP, cacheOpt, rand);
+                    Cromosoma.sort(actual);
+                }
+                //RESULTADO
                 if (lastGen % P3.MG == 0) {
                     convergencia[tamP].add(actual.get(0).coste);
                 }

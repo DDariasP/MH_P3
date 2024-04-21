@@ -43,9 +43,9 @@ public class Gen {
 
     public static Lista<Gen> friendSort(Lista<Gen> lista, Cromosoma c) {
         Lista<Gen> f = new Lista<>();
-        for (int i = 0; i < c.t.filas; i++) {
-            for (int j = 0; j < c.t.columnas; j++) {
-                f.add(c.t.t[i][j]);
+        for (int i = 0; i < c.m.filas; i++) {
+            for (int j = 0; j < c.m.columnas; j++) {
+                f.add(c.m.s[i][j]);
             }
         }
 
@@ -95,7 +95,6 @@ public class Gen {
 
     @Override
     public boolean equals(Object o) {
-
         if (o == this) {
             return true;
         }

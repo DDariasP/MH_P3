@@ -12,19 +12,19 @@ public class Cromosoma {
 
     public int eval;
     public int lasteval;
-    public Tabla t;
+    public Solucion m;
     public int coste;
 
-    public Cromosoma(Tabla n) {
+    public Cromosoma(Solucion n) {
         eval = -1;
         lasteval = -1;
-        t = new Tabla(n);
+        m = n;
         coste = Integer.MAX_VALUE;
     }
 
     public static Cromosoma genRandom(Lista<Gen> listaGen, Random rand) {
         int cam = listaGen.size() / P3.MAXPAL;
-        Tabla tabla = new Tabla(cam, P3.MAXPAL);
+        Solucion matriz = new Solucion(cam, P3.MAXPAL);
 
         int[] palxcam = new int[cam];
         for (int i = 0; i < cam; i++) {
@@ -38,29 +38,26 @@ public class Cromosoma {
             while (palxcam[x] == P3.MAXPAL) {
                 x = (x + 1) % cam;
             }
-            while (tabla.t[x][y] != Gen.NULO) {
+            while (matriz.s[x][y] != Gen.NULO) {
                 y++;
             }
-            tabla.t[x][y] = palet;
+            matriz.s[x][y] = palet;
             palxcam[x]++;
         }
 
-        return (new Cromosoma(tabla));
+        return (new Cromosoma(matriz));
     }
 
     public static Cromosoma genGreedy(Lista<Gen> listaGen, Matriz listaDist, Random rand) {
         int cam = listaGen.size() / P3.MAXPAL;
-        Lista<Gen> listaC = new Lista<>();
-        for (int i = 0; i < listaGen.size(); i++) {
-            listaC.add(listaGen.get(i));
-        }
+        Lista<Gen> listaC = new Lista<>(listaGen);
 
         int[] ultimopal = new int[cam];
         for (int i = 0; i < cam; i++) {
             ultimopal[i] = 1;
         }
 
-        Tabla tabla = new Tabla(cam, P3.MAXPAL);
+        Solucion matriz = new Solucion(cam, P3.MAXPAL);
 
         for (int i = 0; i < P3.MAXPAL; i++) {
             for (int j = 0; j < cam; j++) {
@@ -92,22 +89,51 @@ public class Cromosoma {
                 }
                 listaC.remove(elegido);
 
-                tabla.t[j][i] = elegido;
+                matriz.s[j][i] = elegido;
                 ultimopal[j] = elegido.destino;
             }
         }
 
-        Cromosoma c = new Cromosoma(tabla);
+        Cromosoma c = new Cromosoma(matriz);
         return c;
+    }
+
+    public static Cromosoma gen4opt(Cromosoma c, Random rand) {
+        int cam = c.m.filas;
+        Solucion matriz = new Solucion(c.m);
+        int x1, x2, x3, x4, y1, y2, y3, y4;
+
+        x1 = rand.nextInt(cam);
+        x2 = x1;
+        x3 = rand.nextInt(cam);
+        x4 = rand.nextInt(cam);
+        while (x4 == x3 || x4 == x2) {
+            x4 = rand.nextInt(cam);
+        }
+
+        y1 = rand.nextInt(P3.MAXPAL);
+        y2 = rand.nextInt(P3.MAXPAL);
+        y3 = rand.nextInt(P3.MAXPAL);
+        y4 = rand.nextInt(P3.MAXPAL);
+
+        Gen tmp;
+        tmp = matriz.s[x1][y1];
+        matriz.s[x1][y1] = matriz.s[x2][y2];
+        matriz.s[x2][y2] = tmp;
+        tmp = matriz.s[x3][y3];
+        matriz.s[x3][y3] = matriz.s[x4][y4];
+        matriz.s[x4][y4] = tmp;
+
+        return (new Cromosoma(matriz));
     }
 
     public static int funCoste(Cromosoma c, Matriz listaDist) {
         int coste = 0;
-        for (int i = 0; i < c.t.filas; i++) {
+        for (int i = 0; i < c.m.filas; i++) {
             Lista<Integer> visitadas = new Lista<>();
             int actual = 0;
             visitadas.add(actual);
-            Gen[] camion = c.t.t[i];
+            Gen[] camion = c.m.s[i];
             for (int j = 0; j < camion.length; j++) {
                 int siguiente = camion[j].destino - 1;
                 if (!visitadas.contains(siguiente) && siguiente != actual) {
@@ -138,7 +164,7 @@ public class Cromosoma {
     }
 
     public static void cruceOXSimple(Cromosoma P0, Cromosoma P1, Cromosoma[] H, Random rand) {
-        int cam = P0.t.filas;
+        int cam = P0.m.filas;
         int x1, x2, y1, y2;
         x1 = rand.nextInt(cam);
         x2 = rand.nextInt(cam);
@@ -156,47 +182,47 @@ public class Cromosoma {
         Lista<Gen> seccionP0 = new Lista<>();
         Lista<Gen> seccionP1 = new Lista<>();
         for (int j = y1; j < P3.MAXPAL; j++) {
-            seccionP0.add(P0.t.t[x1][j]);
-            seccionP1.add(P1.t.t[x1][j]);
+            seccionP0.add(P0.m.s[x1][j]);
+            seccionP1.add(P1.m.s[x1][j]);
         }
         for (int i = x1 + 1; i < x2; i++) {
             for (int j = 0; j < P3.MAXPAL; j++) {
-                seccionP0.add(P0.t.t[i][j]);
-                seccionP1.add(P1.t.t[i][j]);
+                seccionP0.add(P0.m.s[i][j]);
+                seccionP1.add(P1.m.s[i][j]);
             }
         }
         for (int j = 0; j <= y2; j++) {
-            seccionP0.add(P0.t.t[x2][j]);
-            seccionP1.add(P1.t.t[x2][j]);
+            seccionP0.add(P0.m.s[x2][j]);
+            seccionP1.add(P1.m.s[x2][j]);
         }
 
         H[0] = P1;
         H[1] = P0;
         for (int j = y1; j < P3.MAXPAL; j++) {
-            H[0].t.t[x1][j] = seccionP0.get(0);
+            H[0].m.s[x1][j] = seccionP0.get(0);
             seccionP0.remove(0);
-            H[1].t.t[x1][j] = seccionP1.get(0);
+            H[1].m.s[x1][j] = seccionP1.get(0);
             seccionP1.remove(0);
 
         }
         for (int i = x1 + 1; i < x2; i++) {
             for (int j = 0; j < P3.MAXPAL; j++) {
-                H[0].t.t[i][j] = seccionP0.get(0);
+                H[0].m.s[i][j] = seccionP0.get(0);
                 seccionP0.remove(0);
-                H[1].t.t[i][j] = seccionP1.get(0);
+                H[1].m.s[i][j] = seccionP1.get(0);
                 seccionP1.remove(0);
             }
         }
         for (int j = 0; j <= y2; j++) {
-            H[0].t.t[x2][j] = seccionP0.get(0);
+            H[0].m.s[x2][j] = seccionP0.get(0);
             seccionP0.remove(0);
-            H[1].t.t[x2][j] = seccionP1.get(0);
+            H[1].m.s[x2][j] = seccionP1.get(0);
             seccionP1.remove(0);
         }
     }
 
     public static void cruceOX(Cromosoma P0, Cromosoma P1, Cromosoma[] H, Random rand) {
-        int cam = P0.t.filas;
+        int cam = P0.m.filas;
         int x1, x2, y1, y2;
         x1 = rand.nextInt(cam);
         x2 = rand.nextInt(cam);
@@ -219,117 +245,117 @@ public class Cromosoma {
         //DE CAM_0 A CAM_X1-1
         for (int i = 0; i < x1; i++) {
             for (int j = 0; j < P3.MAXPAL; j++) {
-                restoP0.add(P0.t.t[i][j]);
-                restoP1.add(P1.t.t[i][j]);
+                restoP0.add(P0.m.s[i][j]);
+                restoP1.add(P1.m.s[i][j]);
             }
         }
         //DE CAM_X1_0 A CAM_X1_Y1-1
         for (int j = 0; j < y1; j++) {
-            restoP0.add(P0.t.t[x1][j]);
-            restoP1.add(P1.t.t[x1][j]);
+            restoP0.add(P0.m.s[x1][j]);
+            restoP1.add(P1.m.s[x1][j]);
         }
         //DE CAM_X1_Y1 A CAM_X1+1
         for (int j = y1; j < P3.MAXPAL; j++) {
-            seccionP0.add(P0.t.t[x1][j]);
-            seccionP1.add(P1.t.t[x1][j]);
+            seccionP0.add(P0.m.s[x1][j]);
+            seccionP1.add(P1.m.s[x1][j]);
         }
         //DE CAM_X1+1 A CAM_X2-1
         for (int i = x1 + 1; i < x2; i++) {
             for (int j = 0; j < P3.MAXPAL; j++) {
-                seccionP0.add(P0.t.t[i][j]);
-                seccionP1.add(P1.t.t[i][j]);
+                seccionP0.add(P0.m.s[i][j]);
+                seccionP1.add(P1.m.s[i][j]);
             }
         }
         //DE CAM_X2_0 A CAM_X2_Y2
         for (int j = 0; j <= y2; j++) {
-            seccionP0.add(P0.t.t[x2][j]);
-            seccionP1.add(P1.t.t[x2][j]);
+            seccionP0.add(P0.m.s[x2][j]);
+            seccionP1.add(P1.m.s[x2][j]);
         }
         //DE CAM_X2_Y2+1 A CAM_X2+1
         for (int j = y2 + 1; j < P3.MAXPAL; j++) {
-            restoP0.add(P0.t.t[x2][j]);
-            restoP1.add(P1.t.t[x2][j]);
+            restoP0.add(P0.m.s[x2][j]);
+            restoP1.add(P1.m.s[x2][j]);
         }
         //DE CAM_X2+1 A CAM_Z
         for (int i = x2 + 1; i < cam; i++) {
             for (int j = 0; j < P3.MAXPAL; j++) {
-                restoP0.add(P0.t.t[i][j]);
-                restoP1.add(P1.t.t[i][j]);
+                restoP0.add(P0.m.s[i][j]);
+                restoP1.add(P1.m.s[i][j]);
             }
         }
 
         Lista<Gen> friendP0 = Gen.friendSort(restoP0, P1);
         Lista<Gen> friendP1 = Gen.friendSort(restoP1, P0);
-        H[0] = new Cromosoma(new Tabla(cam, P3.MAXPAL));
-        H[1] = new Cromosoma(new Tabla(cam, P3.MAXPAL));
+        H[0] = new Cromosoma(new Solucion(cam, P3.MAXPAL));
+        H[1] = new Cromosoma(new Solucion(cam, P3.MAXPAL));
 
         //DE CAM_0 A CAM_X1-1
         for (int i = 0; i < x1; i++) {
             for (int j = 0; j < P3.MAXPAL; j++) {
-                H[0].t.t[i][j] = friendP0.get(0);
+                H[0].m.s[i][j] = friendP0.get(0);
                 friendP0.remove(0);
-                H[1].t.t[i][j] = friendP1.get(0);
+                H[1].m.s[i][j] = friendP1.get(0);
                 friendP1.remove(0);
             }
         }
         //DE CAM_X1_0 A CAM_X1_Y1-1
         for (int j = 0; j < y1; j++) {
-            H[0].t.t[x1][j] = friendP0.get(0);
+            H[0].m.s[x1][j] = friendP0.get(0);
             friendP0.remove(0);
-            H[1].t.t[x1][j] = friendP1.get(0);
+            H[1].m.s[x1][j] = friendP1.get(0);
             friendP1.remove(0);
         }
         //DE CAM_X1_Y1 A CAM_X1+1
         for (int j = y1; j < P3.MAXPAL; j++) {
-            H[0].t.t[x1][j] = seccionP0.get(0);
+            H[0].m.s[x1][j] = seccionP0.get(0);
             seccionP0.remove(0);
-            H[1].t.t[x1][j] = seccionP1.get(0);
+            H[1].m.s[x1][j] = seccionP1.get(0);
             seccionP1.remove(0);
 
         }
         //DE CAM_X1+1 A CAM_X2-1
         for (int i = x1 + 1; i < x2; i++) {
             for (int j = 0; j < P3.MAXPAL; j++) {
-                H[0].t.t[i][j] = seccionP0.get(0);
+                H[0].m.s[i][j] = seccionP0.get(0);
                 seccionP0.remove(0);
-                H[1].t.t[i][j] = seccionP1.get(0);
+                H[1].m.s[i][j] = seccionP1.get(0);
                 seccionP1.remove(0);
             }
         }
         //DE CAM_X2_0 A CAM_X2_Y2
         for (int j = 0; j <= y2; j++) {
-            H[0].t.t[x2][j] = seccionP0.get(0);
+            H[0].m.s[x2][j] = seccionP0.get(0);
             seccionP0.remove(0);
-            H[1].t.t[x2][j] = seccionP1.get(0);
+            H[1].m.s[x2][j] = seccionP1.get(0);
             seccionP1.remove(0);
         }
         //DE CAM_X2_Y2+1 A CAM_X2+1
         for (int j = y2 + 1; j < P3.MAXPAL; j++) {
-            H[0].t.t[x2][j] = friendP0.get(0);
+            H[0].m.s[x2][j] = friendP0.get(0);
             friendP0.remove(0);
-            H[1].t.t[x2][j] = friendP1.get(0);
+            H[1].m.s[x2][j] = friendP1.get(0);
             friendP1.remove(0);
         }
         //DE CAM_X2+1 A CAM_Z
         for (int i = x2 + 1; i < cam; i++) {
             for (int j = 0; j < P3.MAXPAL; j++) {
-                H[0].t.t[i][j] = friendP0.get(0);
+                H[0].m.s[i][j] = friendP0.get(0);
                 friendP0.remove(0);
-                H[1].t.t[i][j] = friendP1.get(0);
+                H[1].m.s[i][j] = friendP1.get(0);
                 friendP1.remove(0);
             }
         }
     }
 
     public static void cruceAEX(Cromosoma P0, Cromosoma P1, Cromosoma[] H, Random rand) {
-        int cam = P0.t.filas;
+        int cam = P0.m.filas;
         Lista<Gen>[] genesP = new Lista[2];
         genesP[0] = new Lista<>();
         genesP[1] = new Lista<>();
         for (int i = 0; i < cam; i++) {
             for (int j = 0; j < P3.MAXPAL; j++) {
-                genesP[0].add(P0.t.t[i][j]);
-                genesP[1].add(P1.t.t[i][j]);
+                genesP[0].add(P0.m.s[i][j]);
+                genesP[1].add(P1.m.s[i][j]);
             }
         }
 
@@ -360,20 +386,20 @@ public class Cromosoma {
             }
         }
 
-        H[0] = new Cromosoma(new Tabla(cam, P3.MAXPAL));
-        H[1] = new Cromosoma(new Tabla(cam, P3.MAXPAL));
+        H[0] = new Cromosoma(new Solucion(cam, P3.MAXPAL));
+        H[1] = new Cromosoma(new Solucion(cam, P3.MAXPAL));
         for (int i = 0; i < cam; i++) {
             for (int j = 0; j < P3.MAXPAL; j++) {
-                H[0].t.t[i][j] = genesH[0].get(0);
+                H[0].m.s[i][j] = genesH[0].get(0);
                 genesH[0].remove(0);
-                H[1].t.t[i][j] = genesH[1].get(0);
+                H[1].m.s[i][j] = genesH[1].get(0);
                 genesH[1].remove(0);
             }
         }
     }
 
     public static void mutacionCM(Cromosoma c, Random rand) {
-        int cam = c.t.filas;
+        int cam = c.m.filas;
         int x1, x2, y1, y2;
         x1 = rand.nextInt(cam);
         x2 = rand.nextInt(cam);
@@ -384,13 +410,13 @@ public class Cromosoma {
         y2 = rand.nextInt(P3.MAXPAL);
 
         Gen tmp;
-        tmp = c.t.t[x1][y1];
-        c.t.t[x1][y1] = c.t.t[x2][y2];
-        c.t.t[x2][y2] = tmp;
+        tmp = c.m.s[x1][y1];
+        c.m.s[x1][y1] = c.m.s[x2][y2];
+        c.m.s[x2][y2] = tmp;
     }
 
     public static void mutacionIM(Cromosoma c, Random rand) {
-        int cam = c.t.filas;
+        int cam = c.m.filas;
         int x1, x2, y1, y2;
         x1 = rand.nextInt(cam);
         x2 = rand.nextInt(cam);
@@ -407,32 +433,88 @@ public class Cromosoma {
 
         Lista<Gen> seccion = new Lista<>();
         for (int j = y1; j < P3.MAXPAL; j++) {
-            seccion.add(c.t.t[x1][j]);
+            seccion.add(c.m.s[x1][j]);
         }
         for (int i = x1 + 1; i < x2; i++) {
             for (int j = 0; j < P3.MAXPAL; j++) {
-                seccion.add(c.t.t[i][j]);
+                seccion.add(c.m.s[i][j]);
             }
         }
         for (int j = 0; j <= y2; j++) {
-            seccion.add(c.t.t[x2][j]);
+            seccion.add(c.m.s[x2][j]);
         }
 
         seccion = Gen.invert(seccion);
         for (int j = y1; j < P3.MAXPAL; j++) {
-            c.t.t[x1][j] = seccion.get(0);
+            c.m.s[x1][j] = seccion.get(0);
             seccion.remove(0);
         }
         for (int i = x1 + 1; i < x2; i++) {
             for (int j = 0; j < P3.MAXPAL; j++) {
-                c.t.t[i][j] = seccion.get(0);
+                c.m.s[i][j] = seccion.get(0);
                 seccion.remove(0);
             }
         }
         for (int j = 0; j <= y2; j++) {
-            c.t.t[x2][j] = seccion.get(0);
+            c.m.s[x2][j] = seccion.get(0);
             seccion.remove(0);
         }
+    }
+
+    public static void optimizacionAM(Lista<Cromosoma> poblacion, Matriz listaDist, int optG, double optP, Lista<Cromosoma> cacheOpt, Random rand) {
+        boolean[] disponibles = new boolean[P3.POBLACION];
+        for (int i = 0; i < P3.POBLACION; i++) {
+            disponibles[i] = true;
+        }
+        for (int i = 0; i < P3.POBLACION; i++) {
+            double opt = rand.nextDouble();
+            if (opt >= 1 - optP) {
+                int pos = -1;
+                while (pos == -1 || !disponibles[pos]) {
+                    pos = rand.nextInt(P3.POBLACION);
+                }
+                disponibles[pos] = false;
+                Cromosoma tmp = poblacion.get(pos);
+                if (!cacheOpt.contains(tmp)) {
+                    if (cacheOpt.size() == P3.CACHE) {
+                        cacheOpt.remove(0);
+                    }
+                    cacheOpt.add(tmp);
+                    tmp = Cromosoma.optBL(tmp, listaDist, rand);
+                    if (cacheOpt.size() == P3.CACHE) {
+                        cacheOpt.remove(0);
+                    }
+                    cacheOpt.add(tmp);
+                }
+            }
+        }
+    }
+
+    private static Cromosoma optBL(Cromosoma inicial, Matriz listaDist, Random rand) {
+        int iter = 0;
+        int maxiter = P3.BL;
+        int eval = inicial.eval;
+
+        inicial.coste = Cromosoma.funCoste(inicial, listaDist);
+        iter++;
+        eval++;
+        inicial.eval = eval;
+
+        Cromosoma actual = inicial;
+        Cromosoma siguiente;
+        while (iter < maxiter) {
+            siguiente = Cromosoma.gen4opt(actual, rand);
+            siguiente.coste = Cromosoma.funCoste(siguiente, listaDist);
+            iter++;
+            eval++;
+            siguiente.eval = eval;
+            if (actual.coste > siguiente.coste) {
+                actual = siguiente;
+            }
+        }
+        actual.lasteval = eval;
+
+        return actual;
     }
 
     public static void sort(Lista<Cromosoma> lista) {
@@ -471,7 +553,6 @@ public class Cromosoma {
 
     @Override
     public boolean equals(Object o) {
-
         if (o == this) {
             return true;
         }
@@ -482,19 +563,19 @@ public class Cromosoma {
 
         Cromosoma obj = (Cromosoma) o;
 
-        return (t.equals(obj.t));
+        return (m.equals(obj.m));
     }
 
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 59 * hash + Objects.hashCode(this.t);
+        hash = 59 * hash + Objects.hashCode(this.m);
         return hash;
     }
 
     @Override
     public String toString() {
-        String output = t.toString();
+        String output = m.toString();
         return output;
     }
 

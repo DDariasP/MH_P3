@@ -22,6 +22,8 @@ public class P3 {
     public static final double CRUCE = 0.85;
     public static final double MUTACION = 0.05;
     public static final int ELITISMO = 5;
+    public static final int CACHE = 50;
+    public static final int BL = 100;
     public static ArrayList<Matriz> listaDist;
     public static ArrayList<Lista> listaPal;
     public static ArrayList<Lista> listaGen;
@@ -90,7 +92,43 @@ public class P3 {
 //            gg22[i].ejecutarGG();
 //            System.out.println("---------------------");
 //        }
-//
+
+        System.out.println("\nMM-OX-AM-1-0.2");
+        Memetico[] mm11 = new Memetico[SEED.length];
+        System.out.println("---------------------");
+        for (int i = 0; i < SEED.length; i++) {
+            mm11[i] = new Memetico(SEED[i], "OX", 1, 0.2);
+            mm11[i].ejecutarMM();
+            System.out.println("---------------------");
+        }
+
+        System.out.println("\nMM-OX-AM-10-1.0");
+        Memetico[] mm12 = new Memetico[SEED.length];
+        System.out.println("---------------------");
+        for (int i = 0; i < SEED.length; i++) {
+            mm12[i] = new Memetico(SEED[i], "OX", 10, 1.0);
+            mm12[i].ejecutarMM();
+            System.out.println("---------------------");
+        }
+
+        System.out.println("\nMM-AEX-AM-1-0.2");
+        Memetico[] mm21 = new Memetico[SEED.length];
+        System.out.println("---------------------");
+        for (int i = 0; i < SEED.length; i++) {
+            mm21[i] = new Memetico(SEED[i], "AEX", 1, 0.2);
+            mm21[i].ejecutarMM();
+            System.out.println("---------------------");
+        }
+
+        System.out.println("\nMM-AEX-AM-10-1.0");
+        Memetico[] mm22 = new Memetico[SEED.length];
+        System.out.println("---------------------");
+        for (int i = 0; i < SEED.length; i++) {
+            mm22[i] = new Memetico(SEED[i], "AEX", 10, 1.0);
+            mm22[i].ejecutarMM();
+            System.out.println("---------------------");
+        }
+
 //        ArrayList<Object> resultados = new ArrayList<>();
 //        resultados.add(gg11);
 //        resultados.add(gg12);

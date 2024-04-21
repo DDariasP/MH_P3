@@ -112,6 +112,50 @@ public class Parser {
             }
             writer.write("\n---------------------");
 
+            writer.write("\nMM-OX-AM-1-0.2 - n*" + P3.MAX);
+            writer.write("\n---------------------");
+            Memetico[] mm11 = (Memetico[]) lista.get(4);
+            for (int i = 0; i < P3.SEED.length; i++) {
+                for (int j = 0; j < P3.NUMP; j++) {
+                    writer.write("\n" + mm11[i].cromMM[j].coste + "\t" + mm11[i].cromMM[j].eval);
+                }
+                writer.write("\n---------------------");
+            }
+            writer.write("\n---------------------");
+
+            writer.write("\nMM-OX-AM-10-1.0 - n*" + P3.MAX);
+            writer.write("\n---------------------");
+            Memetico[] mm12 = (Memetico[]) lista.get(5);
+            for (int i = 0; i < P3.SEED.length; i++) {
+                for (int j = 0; j < P3.NUMP; j++) {
+                    writer.write("\n" + mm12[i].cromMM[j].coste + "\t" + mm12[i].cromMM[j].eval);
+                }
+                writer.write("\n---------------------");
+            }
+            writer.write("\n---------------------");
+
+            writer.write("\nMM-AEX-AM-1-0.2 - n*" + P3.MAX);
+            writer.write("\n---------------------");
+            Memetico[] mm21 = (Memetico[]) lista.get(6);
+            for (int i = 0; i < P3.SEED.length; i++) {
+                for (int j = 0; j < P3.NUMP; j++) {
+                    writer.write("\n" + mm21[i].cromMM[j].coste + "\t" + mm21[i].cromMM[j].eval);
+                }
+                writer.write("\n---------------------");
+            }
+            writer.write("\n---------------------");
+
+            writer.write("\nMM-AEX-AM-10-1.0 - n*" + P3.MAX);
+            writer.write("\n---------------------");
+            Memetico[] mm22 = (Memetico[]) lista.get(7);
+            for (int i = 0; i < P3.SEED.length; i++) {
+                for (int j = 0; j < P3.NUMP; j++) {
+                    writer.write("\n" + mm22[i].cromMM[j].coste + "\t" + mm22[i].cromMM[j].eval);
+                }
+                writer.write("\n---------------------");
+            }
+            writer.write("\n---------------------");
+
             writer.close();
         } catch (IOException e) {
             System.out.println("Error en File.");

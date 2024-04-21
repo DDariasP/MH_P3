@@ -15,6 +15,15 @@ public class Lista<T> {
         lista = new ArrayList<>();
     }
 
+    public Lista(Lista n) {
+        int size = n.size();
+        lista = new ArrayList<>();
+        for (int i = 0; i < size; i++) {
+            T tmp = (T) (n.get(i));
+            lista.add(tmp);
+        }
+    }
+
     public void add(T obj) {
         lista.add(obj);
     }
@@ -40,10 +49,10 @@ public class Lista<T> {
     }
 
     public int count(T obj) {
+        int size = lista.size();
         int n = 0;
-        for (int i = 0; i < lista.size(); i++) {
-            T tmp = lista.get(i);
-            if (obj.equals(tmp)) {
+        for (int i = 0; i < size; i++) {
+            if (obj.equals(lista.get(i))) {
                 n++;
             }
         }
@@ -76,8 +85,9 @@ public class Lista<T> {
 
     @Override
     public String toString() {
+        int size = lista.size();
         String output = "[";
-        for (int i = 0; i < lista.size(); i++) {
+        for (int i = 0; i < size; i++) {
             output = output + lista.get(i).toString() + " ";
         }
         output = output.trim() + "]";
