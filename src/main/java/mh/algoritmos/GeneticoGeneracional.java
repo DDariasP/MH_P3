@@ -55,7 +55,7 @@ public class GeneticoGeneracional {
             cromGG[i] = GG(i);
             System.out.println(cromGG[i].coste + "\t" + cromGG[i].eval);
             if (i == 2 && SEED == 333) {
-                Grafica g = new Grafica(convergencia[i], "GG-" + nombre, color);
+                Grafica g = new Grafica(convergencia[i], "GG-" + nombre, color, P3.RATIOGG);
                 g.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
                 g.setBounds(200, 350, 800, 400);
                 g.setTitle("GG-" + nombre + " - P" + (i + 1) + " - S" + SEED);
@@ -68,7 +68,7 @@ public class GeneticoGeneracional {
         int[] P = P3.P[tamP];
         int ciu = P[0];
         int eval = -1;
-        int maxeval = P3.MAX * ciu;
+        int maxeval = P3.MAXGG * ciu;
         Lista listaGen = P3.listaGen.get(tamP);
         Matriz listaDist = P3.listaDist.get(tamP);
         Cromosoma tmp;
@@ -159,7 +159,7 @@ public class GeneticoGeneracional {
                 Cromosoma.sort(siguiente);
                 actual = siguiente;
                 lastGen++;
-                if (lastGen % P3.MG == 0) {
+                if (lastGen % P3.RATIOGG == 0) {
                     convergencia[tamP].add(actual.get(0).coste);
                 }
                 if (elite.coste > actual.get(0).coste) {

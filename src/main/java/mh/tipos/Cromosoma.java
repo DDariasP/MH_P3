@@ -461,62 +461,6 @@ public class Cromosoma {
         }
     }
 
-    public static void optimizacionAM(Lista<Cromosoma> poblacion, Matriz listaDist, int optG, double optP, Lista<Cromosoma> cacheOpt, Random rand) {
-        boolean[] disponibles = new boolean[P3.POBLACION];
-        for (int i = 0; i < P3.POBLACION; i++) {
-            disponibles[i] = true;
-        }
-        for (int i = 0; i < P3.POBLACION; i++) {
-            double opt = rand.nextDouble();
-            if (opt >= 1 - optP) {
-                int pos = -1;
-                while (pos == -1 || !disponibles[pos]) {
-                    pos = rand.nextInt(P3.POBLACION);
-                }
-                disponibles[pos] = false;
-                Cromosoma tmp = poblacion.get(pos);
-                if (!cacheOpt.contains(tmp)) {
-                    if (cacheOpt.size() == P3.CACHE) {
-                        cacheOpt.remove(0);
-                    }
-                    cacheOpt.add(tmp);
-                    tmp = Cromosoma.optBL(tmp, listaDist, rand);
-                    if (cacheOpt.size() == P3.CACHE) {
-                        cacheOpt.remove(0);
-                    }
-                    cacheOpt.add(tmp);
-                }
-            }
-        }
-    }
-
-    private static Cromosoma optBL(Cromosoma inicial, Matriz listaDist, Random rand) {
-        int iter = 0;
-        int maxiter = P3.BL;
-        int eval = inicial.eval;
-
-        inicial.coste = Cromosoma.funCoste(inicial, listaDist);
-        iter++;
-        eval++;
-        inicial.eval = eval;
-
-        Cromosoma actual = inicial;
-        Cromosoma siguiente;
-        while (iter < maxiter) {
-            siguiente = Cromosoma.gen4opt(actual, rand);
-            siguiente.coste = Cromosoma.funCoste(siguiente, listaDist);
-            iter++;
-            eval++;
-            siguiente.eval = eval;
-            if (actual.coste > siguiente.coste) {
-                actual = siguiente;
-            }
-        }
-        actual.lasteval = eval;
-
-        return actual;
-    }
-
     public static void sort(Lista<Cromosoma> lista) {
         if (lista == null || lista.isEmpty()) {
             return;
@@ -547,8 +491,8 @@ public class Cromosoma {
 
     private static void swap(Lista<Cromosoma> lista, int i, int j) {
         Cromosoma temp = lista.get(i);
-        lista.set(i, lista.get(j));
-        lista.set(j, temp);
+        lista.replace(i, lista.get(j));
+        lista.replace(j, temp);
     }
 
     @Override

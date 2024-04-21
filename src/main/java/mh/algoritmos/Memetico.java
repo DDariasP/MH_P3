@@ -19,12 +19,13 @@ public class Memetico {
     public final String tipoX;
     public final int optG;
     public final double optP;
+    public final int BL;
     public final String nombre;
     public final Color color;
     public int lastGen;
     public Lista<Cromosoma> cacheOpt;
 
-    public Memetico(int a, String b, int c, double d) {
+    public Memetico(int a, String b, int c, double d, int e) {
         SEED = a;
         rand = new Random(SEED);
         cromMM = new Cromosoma[P3.NUMP];
@@ -35,6 +36,7 @@ public class Memetico {
         tipoX = b;
         optG = c;
         optP = d;
+        BL = e;
         nombre = tipoX + "-AM-" + optG + "-" + optP;
         switch (nombre) {
             case "OX-AM-1-0.2":
@@ -55,24 +57,25 @@ public class Memetico {
     }
 
     public void ejecutarMM() {
-        for (int i = 0; i < P3.NUMP; i++) {
-            cromMM[i] = MM(i);
-            System.out.println(cromMM[i].coste + "\t" + cromMM[i].eval);
-            if (i == 2 && SEED == 333) {
-                Grafica g = new Grafica(convergencia[i], "MM-" + nombre, color);
-                g.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-                g.setBounds(200, 350, 800, 400);
-                g.setTitle("MM-" + nombre + " - P" + (i + 1) + " - S" + SEED);
-                g.setVisible(true);
-            }
-        }
+        int i = 2;
+//        for (int i = 0; i < P3.NUMP; i++) {
+        cromMM[i] = MM(i);
+        System.out.println(cromMM[i].coste + "\t" + cromMM[i].eval);
+//            if (i == 2 && SEED == 333) {
+        Grafica g = new Grafica(convergencia[i], "MM-" + nombre, color, P3.RATIOMM);
+        g.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        g.setBounds(200, 350, 800, 400);
+        g.setTitle("MM-" + nombre + " - P" + (i + 1) + " - S" + SEED);
+        g.setVisible(true);
+//            }
+//        }
     }
 
     public Cromosoma MM(int tamP) {
         int[] P = P3.P[tamP];
         int ciu = P[0];
         int eval = -1;
-        int maxeval = P3.MAX * ciu;
+        int maxeval = P3.MAXMM * ciu;
         Lista listaGen = P3.listaGen.get(tamP);
         Matriz listaDist = P3.listaDist.get(tamP);
         Cromosoma tmp;
@@ -148,11 +151,11 @@ public class Memetico {
                 lastGen++;
                 //OPTIMIZACION
                 if (lastGen % optG == 0) {
-                    Cromosoma.optimizacionAM(actual, listaDist, optG, optP, cacheOpt, rand);
+                    optimizacionAM(actual, listaDist);
                     Cromosoma.sort(actual);
                 }
                 //RESULTADO
-                if (lastGen % P3.MG == 0) {
+                if (lastGen % P3.RATIOMM == 0) {
                     convergencia[tamP].add(actual.get(0).coste);
                 }
                 if (elite.coste > actual.get(0).coste) {
@@ -166,5 +169,63 @@ public class Memetico {
         }
 
         return elite;
+    }
+
+    public void optimizacionAM(Lista<Cromosoma> poblacion, Matriz listaDist) {
+        boolean[] disponibles = new boolean[P3.POBLACION];
+        for (int i = 0; i < P3.POBLACION; i++) {
+            disponibles[i] = true;
+        }
+        for (int i = 0; i < P3.POBLACION; i++) {
+            double opt = rand.nextDouble();
+            if (opt >= 1 - optP) {
+                int pos = -1;
+                while (pos == -1 || !disponibles[pos]) {
+                    pos = rand.nextInt(P3.POBLACION);
+                }
+                disponibles[pos] = false;
+                Cromosoma tmp = poblacion.get(pos);
+                if (!cacheOpt.contains(tmp)) {
+                    if (cacheOpt.size() == P3.CACHE) {
+                        cacheOpt.remove(0);
+                    }
+                    cacheOpt.add(tmp);
+                    tmp = optBL(tmp, listaDist);
+                    poblacion.replace(pos,tmp);
+                    if (cacheOpt.size() == P3.CACHE) {
+                        cacheOpt.remove(0);
+                    }
+                    cacheOpt.add(tmp);
+                }
+            }
+        }
+    }
+
+    private Cromosoma optBL(Cromosoma inicial, Matriz listaDist) {
+        int ciu = inicial.m.filas * inicial.m.columnas;
+        int iter = 0;
+        int maxiter = BL * ciu;
+        int eval = inicial.eval;
+
+        inicial.coste = Cromosoma.funCoste(inicial, listaDist);
+        iter++;
+        eval++;
+        inicial.eval = eval;
+
+        Cromosoma actual = inicial;
+        Cromosoma siguiente;
+        while (iter < maxiter) {
+            siguiente = Cromosoma.gen4opt(actual, rand);
+            siguiente.coste = Cromosoma.funCoste(siguiente, listaDist);
+            iter++;
+            eval++;
+            siguiente.eval = eval;
+            if (actual.coste > siguiente.coste) {
+                actual = siguiente;
+            }
+        }
+        actual.lasteval = eval;
+
+        return actual;
     }
 }

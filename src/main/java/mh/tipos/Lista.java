@@ -40,7 +40,7 @@ public class Lista<T> {
         return lista.get(index);
     }
 
-    public void set(int i, T obj) {
+    public void replace(int i, T obj) {
         lista.set(i, obj);
     }
 

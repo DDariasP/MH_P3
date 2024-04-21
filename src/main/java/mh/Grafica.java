@@ -18,7 +18,7 @@ public class Grafica extends JFrame {
 
     public double minY, maxY;
 
-    public Grafica(Lista<Integer> datos, String nombre, Color pintura) {
+    public Grafica(Lista<Integer> datos, String nombre, Color pintura, int ratio) {
         //crear la grafica
         XYPlot plot = new XYPlot();
 
@@ -33,7 +33,7 @@ public class Grafica extends JFrame {
         plot.setRenderer(0, renderer);
 
         //crear y añadir los ejes
-        ValueAxis domain = new NumberAxis("Generación (1 : " + P3.MG + ")");
+        ValueAxis domain = new NumberAxis("Generación (1 : " + ratio + ")");
         ValueAxis range = new NumberAxis("Coste");
         range.setRange(minY, maxY);
         plot.setDomainAxis(0, domain);

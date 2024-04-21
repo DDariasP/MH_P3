@@ -89,8 +89,8 @@ public class Gen {
 
     private static void swap(Lista<Gen> lista, int i, int j) {
         Gen temp = lista.get(i);
-        lista.set(i, lista.get(j));
-        lista.set(j, temp);
+        lista.replace(i, lista.get(j));
+        lista.replace(j, temp);
     }
 
     @Override
