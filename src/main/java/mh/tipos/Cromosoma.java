@@ -11,11 +11,13 @@ import mh.*;
 public class Cromosoma {
 
     public int eval;
+    public int evalBL;
     public Tabla m;
     public int coste;
 
     public Cromosoma(Tabla n) {
         eval = -1;
+        evalBL = -1;
         m = n;
         coste = Integer.MAX_VALUE;
     }

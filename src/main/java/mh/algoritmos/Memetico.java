@@ -22,8 +22,7 @@ public class Memetico {
     public final int id;
     public final String nombre;
     public final Color color;
-    public int lastGen;
-    public int lastEval;
+    public int gen, eval, maxeval, evalBL, maxBL;
     public Lista<Cromosoma> cacheOpt;
 
     public Memetico(int a, String b, int c, double d, int e) {
@@ -64,10 +63,14 @@ public class Memetico {
         time = ((System.currentTimeMillis() - time) / 6000);
         String t = new DecimalFormat("#.00").format(time);
         System.out.println(t + " seg");
-        System.out.println("lastGen=" + lastGen);
-        System.out.println("lastEval=" + lastEval);
+        System.out.println("lastGen=" + gen);
+        System.out.println("lastEval=" + eval);
+        System.out.println("maxEval=" + maxeval);
+        System.out.println("lastBL=" + evalBL);
+        System.out.println("maxBL=" + maxBL);
         System.out.println("coste=" + cromMM[i].coste);
         System.out.println("eval=" + cromMM[i].eval);
+        System.out.println("evalBL=" + cromMM[i].evalBL);
 //            if (i == 2 && SEED == 333) {
         Grafica g = new Grafica(convergencia[i], nombre, color, P3.RATIOMM[id]);
         g.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -81,8 +84,11 @@ public class Memetico {
     public Cromosoma MM(int tamP) {
         int[] P = P3.P[tamP];
         int ciu = P[0];
-        int eval = -1;
-        int maxeval = P3.MAXMM[id] * ciu;
+        maxBL = P3.BL[id] * ciu;
+        evalBL = 0;
+        maxeval = P3.MAXMM[id] * ciu;
+        eval = 0;
+        gen = 0;
         Lista listaGen = P3.listaGen.get(tamP);
         Matriz listaDist = P3.listaDist.get(tamP);
         Cromosoma tmp;
@@ -95,9 +101,6 @@ public class Memetico {
         eval++;
         tmp.eval = eval;
         inicial.add(tmp);
-
-        lastGen = 0;
-        lastEval = 0;
         Cromosoma elite = tmp;
         convergencia[tamP].add(elite.coste);
 
@@ -111,11 +114,11 @@ public class Memetico {
 
         //GENERACIONES
         Lista<Cromosoma> actual = inicial;
-        while (eval < maxeval - 1) {
+        while (eval <= maxeval - 2) {
             //SELECCION Y RECOMBINACION
             Lista<Cromosoma> siguiente = new Lista<>();
             int descendientes = 0;
-            while (eval < maxeval - 1 && descendientes < P3.POBLACION) {
+            while (eval <= maxeval - 2 && descendientes <= P3.POBLACION - 2) {
                 Cromosoma padre1 = Cromosoma.torneo(P3.TORNEO, actual, listaDist, rand);
                 Cromosoma padre2 = Cromosoma.torneo(P3.TORNEO, actual, listaDist, rand);
                 double cruce = rand.nextDouble();
@@ -156,14 +159,14 @@ public class Memetico {
                 }
                 Cromosoma.sort(siguiente);
                 actual = siguiente;
-                lastGen++;
+                gen++;
                 //OPTIMIZACION
-                if (lastGen % optG == 0) {
+                if (gen % optG == 0) {
                     optimizacionAM(actual, listaDist);
                     Cromosoma.sort(actual);
                 }
                 //RESULTADO
-                if (lastGen % P3.RATIOMM[id] == 0) {
+                if (gen % P3.RATIOMM[id] == 0) {
                     convergencia[tamP].add(actual.get(0).coste);
                 }
                 if (elite.coste > actual.get(0).coste) {
@@ -171,7 +174,6 @@ public class Memetico {
                 }
             } else {
                 convergencia[tamP].add(elite.coste);
-                lastEval = eval;
             }
         }
 
@@ -209,24 +211,23 @@ public class Memetico {
     }
 
     private Cromosoma optBL(Cromosoma inicial, Matriz listaDist) {
-        int ciu = inicial.m.filas * inicial.m.columnas;
         int iter = 0;
-        int maxiter = P3.BL[id] * ciu;
-
         inicial.coste = Cromosoma.funCoste(inicial, listaDist);
         iter++;
-
+        evalBL++;
+        inicial.evalBL = evalBL;
         Cromosoma actual = inicial;
         Cromosoma siguiente;
-        while (iter < maxiter) {
+        while (iter < maxBL) {
             siguiente = Cromosoma.gen4opt(actual, rand);
             siguiente.coste = Cromosoma.funCoste(siguiente, listaDist);
             iter++;
+            evalBL++;
+            siguiente.evalBL = evalBL;
             if (actual.coste > siguiente.coste) {
                 actual = siguiente;
             }
         }
-
         return actual;
     }
 }

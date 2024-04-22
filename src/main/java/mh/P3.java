@@ -15,10 +15,10 @@ public class P3 {
     public static final int[][] P = {{25, 84, 6}, {38, 126, 9}, {50, 168, 12}};
     public static final int[] SEED = {111, 222, 333, 123, 321};
     public static final int[] MAXGG = {5000, 5000, 5000, 5000};
-    public static final int[] RATIOGG = {MAXGG[0] / 20, MAXGG[1] / 20, MAXGG[2] / 20, MAXGG[3] / 20};
-    public static final int[] MAXMM = {40, 50, 25, 100};
-    public static final int[] RATIOMM = {MAXMM[0] / 20, MAXMM[1] / 20, MAXMM[2] / 20, MAXMM[3] / 20};
-    public static final int[] BL = {100, 600, 150, 200};
+    public static final int[] RATIOGG = {250, 250, 250, 250};
+    public static final int[] MAXMM = {80, 60, 50, 50};
+    public static final int[] BL = {150, 1750, 175, 600};
+    public static final int[] RATIOMM = {4, 3, 2, 2};
     public static final int POBLACION = 50;
     public static final int TORNEO = 2;
     public static final double CRUCE = 0.85;
@@ -59,7 +59,7 @@ public class P3 {
         }
 
         int i = 2;
-
+//
         System.out.println("\nGG-OX-M1");
         GeneticoGeneracional[] gg11 = new GeneticoGeneracional[SEED.length];
         System.out.println("---------------------");
@@ -95,7 +95,6 @@ public class P3 {
         gg22[i].ejecutarGG();
         System.out.println("---------------------");
 //        }
-
         System.out.println("\nMM-OX-AM-1-0.2");
         Memetico[] mm11 = new Memetico[SEED.length];
         System.out.println("---------------------");
