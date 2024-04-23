@@ -65,9 +65,7 @@ public class Memetico {
         System.out.println(t + " seg");
         System.out.println("lastGen=" + gen);
         System.out.println("lastEval=" + eval);
-        System.out.println("maxEval=" + maxeval);
         System.out.println("lastBL=" + evalBL);
-        System.out.println("maxBL=" + maxBL);
         System.out.println("coste=" + cromMM[i].coste);
         System.out.println("eval=" + cromMM[i].eval);
         System.out.println("evalBL=" + cromMM[i].evalBL);
@@ -221,6 +219,7 @@ public class Memetico {
         while (iter < maxBL) {
             siguiente = Cromosoma.gen4opt(actual, rand);
             siguiente.coste = Cromosoma.funCoste(siguiente, listaDist);
+            siguiente.eval = inicial.eval;
             iter++;
             evalBL++;
             siguiente.evalBL = evalBL;
