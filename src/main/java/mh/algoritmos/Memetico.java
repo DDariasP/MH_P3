@@ -56,27 +56,26 @@ public class Memetico {
     }
 
     public void ejecutarMM() {
-        int i = 2;
-//        for (int i = 0; i < P3.NUMP; i++) {
-        double time = System.currentTimeMillis();
-        cromMM[i] = MM(i);
-        time = ((System.currentTimeMillis() - time) / 6000);
-        String t = new DecimalFormat("#.00").format(time);
-        System.out.println(t + " seg");
-        System.out.println("lastGen=" + gen);
-        System.out.println("lastEval=" + eval);
-        System.out.println("lastBL=" + evalBL);
-        System.out.println("coste=" + cromMM[i].coste);
-        System.out.println("eval=" + cromMM[i].eval);
-        System.out.println("evalBL=" + cromMM[i].evalBL);
-//            if (i == 2 && SEED == 333) {
-        Grafica g = new Grafica(convergencia[i], nombre, color, P3.RATIOMM[id]);
-        g.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        g.setBounds(200, 350, 800, 400);
-        g.setTitle(nombre + " - P" + (i + 1) + " - S" + SEED);
-        g.setVisible(true);
-        //            }
-//        }
+        for (int i = 0; i < P3.NUMP; i++) {
+            double time = System.currentTimeMillis();
+            cromMM[i] = MM(i);
+            time = ((System.currentTimeMillis() - time) / 6000);
+            String t = new DecimalFormat("#.00").format(time);
+            System.out.println(t + " seg");
+            System.out.println("lastGen=" + gen);
+            System.out.println("lastEval=" + eval);
+            System.out.println("lastBL=" + evalBL);
+            System.out.println("coste=" + cromMM[i].coste);
+            System.out.println("eval=" + cromMM[i].eval);
+            System.out.println("evalBL=" + cromMM[i].evalBL);
+            if (i == -1 && SEED == -1) {
+                Grafica g = new Grafica(convergencia[i], nombre, color, P3.RATIOMM[id]);
+                g.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+                g.setBounds(200, 350, 800, 400);
+                g.setTitle(nombre + " - P" + (i + 1) + " - S" + SEED);
+                g.setVisible(true);
+            }
+        }
     }
 
     public Cromosoma MM(int tamP) {
