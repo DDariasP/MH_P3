@@ -16,9 +16,9 @@ public class P3 {
     public static final int[] SEED = {111, 222, 333, 123, 321};
     public static final int[] MAXGG = {5000, 5000, 5000, 5000};
     public static final int[] RATIOGG = {250, 250, 250, 250};
-    public static final int[] MAXMM = {80, 60, 50, 50};
-    public static final int[] BL = {150, 1750, 175, 600};
-    public static final int[] RATIOMM = {4, 3, 2, 2};
+    public static final int[] MAXMM = {80, 80, 80, 80};
+    public static final int[] BL = {200, 2000, 200, 750};
+    public static final int[] RATIOMM = {4, 4, 4, 4};
     public static final int POBLACION = 50;
     public static final int TORNEO = 2;
     public static final double CRUCE = 0.85;
@@ -93,7 +93,7 @@ public class P3 {
             gg22[i].ejecutarGG();
             System.out.println("---------------------");
         }
-        System.out.println("\nMM/OX/AM-1-0.2/" + MAXMM[0] + "*n/" + BL[0] + "*n");
+        System.out.println("\nMM/OX/AM-1-0.2/" + MAXMM[0] + "*n/" + BL[0] + "*n (BL)");
         Memetico[] mm11 = new Memetico[SEED.length];
         System.out.println("---------------------");
         for (int i = 0; i < SEED.length; i++) {
@@ -102,7 +102,7 @@ public class P3 {
             System.out.println("---------------------");
         }
 
-        System.out.println("\nMM/OX/AM-10-1.0/" + MAXMM[1] + "*n/" + BL[1] + "*n");
+        System.out.println("\nMM/OX/AM-10-1.0/" + MAXMM[1] + "*n/" + BL[1] + "*n (BL)");
         Memetico[] mm12 = new Memetico[SEED.length];
         System.out.println("---------------------");
         for (int i = 0; i < SEED.length; i++) {
@@ -111,7 +111,7 @@ public class P3 {
             System.out.println("---------------------");
         }
 
-        System.out.println("\nMM/AEX/AM-1-0.2/" + MAXMM[2] + "*n/" + BL[2] + "*n");
+        System.out.println("\nMM/AEX/AM-1-0.2/" + MAXMM[2] + "*n/" + BL[2] + "*n (BL)");
         Memetico[] mm21 = new Memetico[SEED.length];
         System.out.println("---------------------");
         for (int i = 0; i < SEED.length; i++) {
@@ -120,7 +120,7 @@ public class P3 {
             System.out.println("---------------------");
         }
 
-        System.out.println("\nMM/AEX/AM-10-1.0/" + MAXMM[3] + "*n/" + BL[3] + "*n");
+        System.out.println("\nMM/AEX/AM-10-1.0/" + MAXMM[3] + "*n/" + BL[3] + "*n (BL)");
         Memetico[] mm22 = new Memetico[SEED.length];
         System.out.println("---------------------");
         for (int i = 0; i < SEED.length; i++) {

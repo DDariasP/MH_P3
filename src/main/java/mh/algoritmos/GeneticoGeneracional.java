@@ -61,7 +61,7 @@ public class GeneticoGeneracional {
             System.out.println("lastEval=" + eval);
             System.out.println("coste=" + cromGG[i].coste);
             System.out.println("eval=" + cromGG[i].eval);
-            if (i == -1 && SEED == -1) {
+            if (i == 2 && SEED == 333) {
                 Grafica g = new Grafica(convergencia[i], nombre, color, P3.RATIOGG[id]);
                 g.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
                 g.setBounds(200, 350, 800, 400);

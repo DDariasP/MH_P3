@@ -68,7 +68,7 @@ public class Memetico {
             System.out.println("coste=" + cromMM[i].coste);
             System.out.println("eval=" + cromMM[i].eval);
             System.out.println("evalBL=" + cromMM[i].evalBL);
-            if (i == -1 && SEED == -1) {
+            if (i == 2 && SEED == 333) {
                 Grafica g = new Grafica(convergencia[i], nombre, color, P3.RATIOMM[id]);
                 g.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
                 g.setBounds(200, 350, 800, 400);
@@ -216,7 +216,7 @@ public class Memetico {
         Cromosoma actual = inicial;
         Cromosoma siguiente;
         while (iter < maxBL) {
-            siguiente = Cromosoma.gen4opt(actual, rand);
+            siguiente = Cromosoma.gen2opt(actual, rand);
             siguiente.coste = Cromosoma.funCoste(siguiente, listaDist);
             siguiente.eval = inicial.eval;
             iter++;

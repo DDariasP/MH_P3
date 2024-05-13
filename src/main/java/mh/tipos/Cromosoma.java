@@ -98,7 +98,7 @@ public class Cromosoma {
         return c;
     }
 
-    public static Cromosoma gen4opt(Cromosoma c, Random rand) {
+    public static Cromosoma gen2opt(Cromosoma c, Random rand) {
         int cam = c.m.filas;
         Tabla matriz = new Tabla(c.m);
         int x1, x2, x3, x4, y1, y2, y3, y4;
